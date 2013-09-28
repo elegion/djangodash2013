@@ -11,8 +11,16 @@ setup(
     author='e-Legion',
     author_email='pr@e-legion.com',
     url='http://www.e-legion.com/',
-    packages=['wtl'],
-    install_requires=[],
+    packages=[
+        'wtl',
+        'wtl.wtlib',
+    ],
+    install_requires=[
+        'django==1.5.4',
+        'south==0.8.2',
+        'nose==1.3.0',
+        'django-nose==1.2',
+    ],
     zip_safe=False,
     classifiers=(
         'Development Status :: 2 - Pre-Alpha',
