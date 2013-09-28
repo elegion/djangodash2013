@@ -3,3 +3,5 @@ south==0.8.2
 
 # Gondor requirements
 gondor==1.2.4
+psycopg2==2.5.1
+gunicorn==18.0

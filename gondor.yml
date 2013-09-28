@@ -1,0 +1,23 @@
+key: BKMNP2BBN9Q
+vcs: git
+runtime: python-2.7.3
+framework: django
+requirements_file: requirements.txt
+
+# Commands to be executed during deployment. These can handle migrations or
+# moving static files into place. Accepts same parameters as gondor run.
+# on_deploy:
+#     - manage.py syncdb --noinput
+#     - manage.py collectstatic --noinput
+
+# URLs which should be served by Gondor mapping to a filesystem location
+# relative to your writable storage area.
+static_urls:
+    - /site_media:
+        root: site_media/
+
+wsgi:
+    entry_point: wtl.wsgi:application
+    use_environment_cache: true
+django:
+  managepy: manage.py
