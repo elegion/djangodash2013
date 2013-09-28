@@ -10,6 +10,7 @@ with open('requirements.txt', 'r') as f:
     REQUIREMENTS = f.read()
 
 GEMFILE = """
+# Example Gemfile
 source 'https://rubygems.org'
 
 ruby '2.0.0'
@@ -26,6 +27,7 @@ end
 """
 
 PODFILE = """
+# Example Podfile
 platform :ios, '7.0'
 inhibit_all_warnings!
 
