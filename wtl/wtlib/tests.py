@@ -15,3 +15,11 @@ class LibraryVersionTestCase(TestCase):
     def test_str(self):
         x = LibraryVersionFactory()
         self.assertEqual(str(x), x.library.name + ' ' + x.version)
+
+
+class HomeTestCase(TestCase):
+    def test_template(self):
+        response = self.client.get('/')
+        self.assertEqual(response.status_code, 200)
+        self.assertTemplateUsed('wtlib/home.html')
+        self.assertTemplateUsed('wtlib/_repo_form.html')
