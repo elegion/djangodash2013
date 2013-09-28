@@ -158,3 +158,8 @@ LOGGING = {
 }
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
+
+try:
+    from .settings_local import *
+except ImportError:
+    pass
