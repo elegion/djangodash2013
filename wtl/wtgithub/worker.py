@@ -36,11 +36,16 @@ class GithubWorker(object):
         if github is not None:
             self.github = github
 
+    def _get_repo(self, full_name):
+        """
+        Fetches github repository information
+        """
+        return self.github.get_repo(full_name)
+
     def _get_or_create_repository(self, rep):
         """
-        Fetches github repository information, creates `wtgithub.models.Repository`
-        and `wtlib.models.Project` if does not exist.
-        Returns github repository information and `wtgithub.models.Repository`
+        creates (if does not exist) and returns:
+        `wtgithub.models.Repository` and `wtlib.models.Project`
         """
         try:
             repository = Repository.objects.get(name=rep.name,
@@ -106,7 +111,7 @@ class GithubWorker(object):
             project.libraries.add(version)
 
     def analyze_repo(self, full_name):
-        rep = self.github.get_repo(full_name)
+        rep = self._get_repo(full_name)
         repository, project = self._get_or_create_repository(rep)
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)

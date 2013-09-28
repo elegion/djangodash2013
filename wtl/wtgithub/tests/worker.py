@@ -1,8 +1,11 @@
 from __future__ import unicode_literals
+import os
 
 from django.test import TestCase
 from exam.asserts import AssertsMixin
 from github import UnknownObjectException
+from github.Requester import Requester
+import mock
 
 from wtl.wtgithub.models import Repository
 from wtl.wtgithub.tests.factories import RepositoryFactory
@@ -12,37 +15,54 @@ from wtl.wtlib.models import Project, Library, LibraryVersion
 from wtl.wtparser.parsers import RequirementsParser
 
 
-gh_rep = None
-github = None
-def setUpModule():
-    global gh_rep, github
-    github = GithubWorker().github
-    gh_rep = github.get_repo('elegion/djangodash2013')
-
-
 class BaseTestCase(TestCase):
     def setUp(self):
-        self.language = LanguageFactory(name='Python')
-        self.worker = GithubWorker()
         super(BaseTestCase, self).setUp()
+        self.language = LanguageFactory(name='Python')
+		# Mock github requests
+        self.connectionMock = mock.Mock()
+        connectionClass = mock.Mock()
+        connectionClass.return_value = self.connectionMock
+        Requester.injectConnectionClasses(connectionClass, connectionClass)
+
+        self.worker = GithubWorker()
+        # preload gh_rep used by most tests
+        self.githubWillRespondWith('get_repo/elegion__djangodash2013.json')
+        self.gh_rep = self.worker.github.get_repo('elegion/djangodash2013')
+
+    def tearDown(self):
+        super(BaseTestCase, self).tearDown()
+        Requester.resetConnectionClasses()
+
+    def githubWillRespondWith(self, filename, response_code=200):
+        """
+        Instead of requesting to github, respond with contents of test_responses/$filename file
+        """
+        content = open(os.path.join(os.path.dirname(__file__), 'test_responses', filename)).read()
+        response = mock.Mock()
+        type(response).status = mock.PropertyMock(return_value=response_code)
+        response.getheaders.return_value = {}
+        response.read.return_value = content
+        self.connectionMock.getresponse.return_value = response
 
 
 class GetParserForRepositoryTestCase(BaseTestCase):
     def test_returns_parser(self):
-        sha, parser = self.worker._get_parser_for_repository(gh_rep)
+        self.githubWillRespondWith('get_git_tree/elegion__djangodash2013.json')
+        sha, parser = self.worker._get_parser_for_repository(self.gh_rep)
         self.assertIsInstance(parser, RequirementsParser)
         self.assertEqual(40, len(sha))
 
     def test_returns_none(self):
-        repo = github.get_repo('github/objective-c-conventions')
+        self.githubWillRespondWith('get_git_tree/github__objective-c-conventions.json')
         with self.assertRaises(CantFindParserError):
-            self.worker._get_parser_for_repository(repo)
+            self.worker._get_parser_for_repository(self.gh_rep)
 
 
 class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
     def test_creates_repository(self):
         with self.assertChanges(Repository.objects.count, before=0, after=1):
-            self.worker._get_or_create_repository(gh_rep)
+            self.worker._get_or_create_repository(self.gh_rep)
 
         repository = Repository.objects.all()[0]
 
@@ -55,7 +75,7 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
                           starsCount=100)
 
         with self.assertDoesNotChange(Repository.objects.count):
-            self.worker._get_or_create_repository(gh_rep)
+            self.worker._get_or_create_repository(self.gh_rep)
 
         repository = Repository.objects.all()[0]
 
@@ -65,7 +85,7 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
 
     def test_creates_project_if_not_exist(self):
         with self.assertChanges(Project.objects.count, before=0, after=1):
-            self.worker._get_or_create_repository(gh_rep)
+            self.worker._get_or_create_repository(self.gh_rep)
 
         project = Project.objects.all()[0]
 
@@ -79,7 +99,7 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
                           starsCount=100)
 
         with self.assertChanges(Project.objects.count, before=0, after=1):
-            self.worker._get_or_create_repository(gh_rep)
+            self.worker._get_or_create_repository(self.gh_rep)
 
         project = Project.objects.all()[0]
 
@@ -90,13 +110,15 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
 
 class ParseRequirementsTestCase(BaseTestCase):
     def test_returns_parsed_requirements(self):
-        res = self.worker._parse_requirements(gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', RequirementsParser())
+        self.githubWillRespondWith('get_git_blog/requrements.txt.json')
+        res = self.worker._parse_requirements(self.gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', RequirementsParser())
         self.assertIsInstance(res, dict)
         self.assertEqual(res.get('language'), 'Python')
 
     def test_raises_parse_error(self):
+        self.githubWillRespondWith('get_git_blog/invalid-requirements.txt.json')
         with self.assertRaises(ParseError):
-            self.worker._parse_requirements(gh_rep, 'dd3705261c05bd3d3609de15bff66b6b4a5dd0ad', RequirementsParser())
+            self.worker._parse_requirements(self.gh_rep, 'dd3705261c05bd3d3609de15bff66b6b4a5dd0ad', RequirementsParser())
 
 
 class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
@@ -155,5 +177,6 @@ class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
 
 class AnalyzeRepoTestCase(BaseTestCase):
     def test_called_with_invalid_url(self):
+        self.githubWillRespondWith('404.json', response_code=404)
         with self.assertRaises(UnknownObjectException):
             self.worker.analyze_repo('invalid/url')

@@ -1,0 +1,99 @@
+{
+    "sha": "master",
+    "url": "https://api.github.com/repos/elegion/djangodash2013/git/trees/master",
+    "tree": [
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "3f1b1c1ae2642c9fc0e03ed7699f0db12fb52e33",
+            "path": ".gitignore",
+            "size": 82,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/3f1b1c1ae2642c9fc0e03ed7699f0db12fb52e33"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "855a82e667679c738d42947a54f9cc736c66fddb",
+            "path": ".travis.yml",
+            "size": 139,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/855a82e667679c738d42947a54f9cc736c66fddb"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "1abb0b128a60a2de700e4294d8a82cebad5ceb16",
+            "path": "LICENSE.md",
+            "size": 1075,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/1abb0b128a60a2de700e4294d8a82cebad5ceb16"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "a09dc00a692324b50da4876031fbe8b909df9c2b",
+            "path": "README.md",
+            "size": 649,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/a09dc00a692324b50da4876031fbe8b909df9c2b"
+        },
+        {
+            "mode": "040000",
+            "type": "tree",
+            "sha": "be96486fcf7be23f23096c25bdea4c51b9b24474",
+            "path": "assets",
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/trees/be96486fcf7be23f23096c25bdea4c51b9b24474"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "f4dcc87b00f8296800b7e6c12cff3b0294357be2",
+            "path": "gondor.yml",
+            "size": 322,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/f4dcc87b00f8296800b7e6c12cff3b0294357be2"
+        },
+        {
+            "mode": "100755",
+            "type": "blob",
+            "sha": "62266b3c058543ed3b6e721895e76e37dde96e48",
+            "path": "manage.py",
+            "size": 246,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/62266b3c058543ed3b6e721895e76e37dde96e48"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "bbdce0004a897ba617f1001591c7dea665485425",
+            "path": "requirements.txt",
+            "size": 197,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/bbdce0004a897ba617f1001591c7dea665485425"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "dd3705261c05bd3d3609de15bff66b6b4a5dd0ad",
+            "path": "setup.py",
+            "size": 1094,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/dd3705261c05bd3d3609de15bff66b6b4a5dd0ad"
+        },
+        {
+            "mode": "040000",
+            "type": "tree",
+            "sha": "308fd0929c223c338150b3067c50805ed69468f0",
+            "path": "templates",
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/trees/308fd0929c223c338150b3067c50805ed69468f0"
+        },
+        {
+            "mode": "100644",
+            "type": "blob",
+            "sha": "e714c6a2163333105f9931e8df764c62f9d68c3a",
+            "path": "tox.ini",
+            "size": 96,
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/blobs/e714c6a2163333105f9931e8df764c62f9d68c3a"
+        },
+        {
+            "mode": "040000",
+            "type": "tree",
+            "sha": "652bd2ce720b1cbb8dd243776dd2dc610f913a23",
+            "path": "wtl",
+            "url": "https://api.github.com/repos/elegion/djangodash2013/git/trees/652bd2ce720b1cbb8dd243776dd2dc610f913a23"
+        }
+    ]
+}
