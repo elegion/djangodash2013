@@ -11,6 +11,9 @@ class BaseParser(object):
     def detect(self, content):
         return False
 
+    def _detect_by_regex(self, content, regexes):
+        return any(re.compile(r).match(content) for r in regexes)
+
     def get_platform(self, lines):
         return None
 

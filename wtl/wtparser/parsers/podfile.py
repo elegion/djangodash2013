@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import re
-
 from .base import BaseParser
 
 
@@ -17,7 +15,7 @@ class PodfileParser(BaseParser):
             r'''^\s*post_install\s+do''',
             r'''^\s*pod\s+["'].*['"]''',
         ]
-        return any(re.compile(r).match(content) for r in res)
+        return self._detect_by_regex(content, res)
 
     def get_platform(self, lines):
         platform = self._get_platform(lines)

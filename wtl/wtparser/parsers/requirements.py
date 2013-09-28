@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import re
-
 from .base import BaseParser
 
 
@@ -21,4 +19,4 @@ class RequirementsParser(BaseParser):
             r'''^-e ''',
             r'''^.*(==|>=)''',
         ]
-        return any(re.compile(r).match(content) for r in res)
+        return self._detect_by_regex(content, res)

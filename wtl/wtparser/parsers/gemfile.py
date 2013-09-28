@@ -1,7 +1,5 @@
 from __future__ import unicode_literals
 
-import re
-
 from .base import BaseParser
 
 
@@ -16,7 +14,7 @@ class GemfileParser(BaseParser):
             r'''^\s*group.+do''',
             r'''^\s*gem\s+["'].*['"]''',
         ]
-        return any(re.compile(r).match(content) for r in res)
+        return self._detect_by_regex(content, res)
 
     def get_version(self, lines):
         ruby = self._get_ruby(lines)
