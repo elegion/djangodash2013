@@ -1,7 +1,12 @@
+from __future__ import print_function
+from __future__ import unicode_literals
+
 from django.db import models
+from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
 
+@python_2_unicode_compatible
 class Library(models.Model):
     """
     Library.
@@ -21,5 +26,5 @@ class Library(models.Model):
     class Meta():
         ordering = ('name',)
 
-    def __unicode__(self):
+    def __str__(self):
         return self.name
