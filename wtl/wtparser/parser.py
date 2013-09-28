@@ -11,7 +11,10 @@ def parse(content, filetype=None):
     Parse the packages file and return the data in the following format::
 
         {
-            'language': 'python',
+            'filename': 'Gemfile',
+            'language': 'Objective-C',
+            'platform': 'ios',
+            'version':  '7.0',
             'packages': [
                 {
                     'name': 'Django',

@@ -6,7 +6,8 @@ from .base import BaseParser
 
 
 class RequirementsParser(BaseParser):
-    filetype = 'requirements'
+    language = 'Python'
+    filename = 'requirements.txt'
 
     def detect(self, content):
         res = [
