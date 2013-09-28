@@ -29,7 +29,7 @@ class GithubWorker(object):
     github = None
 
     def __init__(self, github=None):
-        super().__init__()
+        super(GithubWorker, self).__init__()
         if github is None:
             self.github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
                                  getattr(settings, 'WTGITHUB_PASSWORD', None))
@@ -87,7 +87,6 @@ class GithubWorker(object):
         else:
             raise ParseError('Unknown blob encoding')
         try:
-            print(content)
             return parser.parse(content)
         except:
             raise ParseError()
