@@ -1,0 +1,5 @@
+django==1.5.4
+south==0.8.2
+
+# Gondor requirements
+gondor==1.2.4
