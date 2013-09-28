@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.test import TestCase
 
-from .parser import parse, guess, load
+from .parser import parse, guess, load, get_parser_for_filename
 from .parsers import RequirementsParser, GemfileParser, PodfileParser
 
 
@@ -87,6 +87,22 @@ class LoadTestCase(TestCase):
     def test_unknown(self):
         with self.assertRaises(AttributeError):
             load('unknown')
+
+class GetParserForFilenameTestCase(TestCase):
+    def test_requiremets(self):
+        self.assertEqual(get_parser_for_filename('requirements.txt').__class__,
+                         RequirementsParser)
+
+    def test_gemfile(self):
+        self.assertEqual(get_parser_for_filename('Gemfile').__class__,
+                         GemfileParser)
+
+    def test_podfile(self):
+        self.assertEqual(get_parser_for_filename('Podfile').__class__,
+                         PodfileParser)
+
+    def test_unknown(self):
+        self.assertIsNone(get_parser_for_filename('unknown'))
 
 
 class ParseTestCase(TestCase):

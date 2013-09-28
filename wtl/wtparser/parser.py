@@ -32,6 +32,14 @@ def parse(content, filetype=None):
     return parser.parse(content)
 
 
+def get_parser_for_filename(filename):
+    for name in parsers.available_parsers:
+        parser = load_by_name(name)()
+        if parser.filename == filename:
+            return parser
+    return None
+
+
 def guess(content):
     for name in parsers.available_parsers:
         parser = load_by_name(name)()
