@@ -1,0 +1,47 @@
+<!doctype html>
+{% load i18n %}
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title>{% block title %}{% trans 'What The Library?!' %}{% endblock %}</title>
+    <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="icon" type="image/png" href="data:image/png;," />
+    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="{{ STATIC_URL }}css/index.css">
+    {% block head %}{% endblock %}
+  </head>
+  <body>
+    {% block body %}
+      <div id="wrap">
+      <header class="site-header">
+        <div class="navbar navbar-inverse navbar-fixed-top">
+          <div class="container">
+            <div class="navbar-header">
+              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+              </button>
+              <a class="navbar-brand" href="{% url 'home' %}">{% trans 'What The Library?' %}</a>
+            </div>
+          </div>
+        </div>
+      </header>
+      <div class="site-content"></div>
+      </div>
+      <footer id="footer">
+        <div class="container">
+          <p>
+            Django Dash 2013, <a href="http://www.e-legion.com/">e-Legion</a>,
+            <a href="https://twitter.com/glyuck">@glyuck</a>,
+            <a href="https://twitter.com/dmedvinsky">@dmedvinsky</a>.
+        </div>
+      </footer>
+    {% endblock %}
+    {% block post_body %}{% endblock %}
+    <script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+    <script src="//netdna.bootstrapcdn.com/bootstrap/3.0.0/js/bootstrap.min.js"></script>
+    <script src="{{ STATIC_URL }}js/index.js"></script>
+  </body>
+</html>
