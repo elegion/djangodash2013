@@ -14,20 +14,20 @@
   <body>
     {% block body %}
       <div id="wrap">
-      <header class="site-header">
-        <div class="navbar navbar-inverse navbar-fixed-top">
-          <div class="container">
-            <div class="navbar-header">
-              <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-                <span class="icon-bar"></span>
-              </button>
-              <a class="navbar-brand" href="{% url 'home' %}">{% trans 'What The Library?' %}</a>
+        <header class="site-header">
+          <div class="navbar navbar-inverse navbar-fixed-top">
+            <div class="container">
+              <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                  <span class="icon-bar"></span>
+                </button>
+                <a class="navbar-brand" href="{% url 'home' %}">{% trans 'What The Library?' %}</a>
+              </div>
             </div>
           </div>
-        </div>
-      </header>
+        </header>
         <div class="container">
           {% block content %}{% endblock %}
         </div>
@@ -35,9 +35,11 @@
       <footer id="footer">
         <div class="container">
           <p>
-            Django Dash 2013, <a href="http://www.e-legion.com/">e-Legion</a>,
+            <a href="http://djangodash.com">Django Dash</a> 2013,
+            <a href="http://www.e-legion.com/">e-Legion</a>,
             <a href="https://twitter.com/glyuck">@glyuck</a>,
             <a href="https://twitter.com/dmedvinsky">@dmedvinsky</a>.
+            <a href="https://github.com/elegion/djangodash2013">Open Source</a>.
           </p>
         </div>
       </footer>
