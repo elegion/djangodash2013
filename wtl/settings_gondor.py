@@ -1,5 +1,8 @@
 import os
-import urlparse
+try:
+    import urlparse
+except ImportError:
+    from urllib.parse import urlparse
 
 from .settings import *
 
