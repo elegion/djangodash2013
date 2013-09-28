@@ -7,6 +7,11 @@ from django.db import models
 
 @python_2_unicode_compatible
 class Repository(models.Model):
+    """
+    Repository
+
+    Represents github repository. Name, description, etc
+    """
     owner = models.CharField(_('owner'), max_length=512)
     name = models.CharField(_('name'), max_length=512)
     starsCount = models.IntegerField(_('stars count'))
