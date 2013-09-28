@@ -41,7 +41,6 @@ xcodeproj `MyProject`
 
 pod 'SSToolkit'
 pod 'AFNetworking', '>= 0.5.1'
-pod 'CocoaLumberjack'
 pod 'Objection', :head # 'bleeding edge'
 
 target :test do
@@ -97,7 +96,20 @@ class ParseTestCase(TestCase):
             'language': parser.language,
             'platform': 'ios',
             'version':  '7.0',
-            'packages': [],
+            'packages': [
+                {'name': 'SSToolkit',
+                 'version': None,
+                 'version_special': 'stable'},
+                {'name': 'AFNetworking',
+                 'version': '0.5.1',
+                 'version_special': '>='},
+                {'name': 'Objection',
+                 'version': None,
+                 'version_special': 'latest'},
+                {'name': 'OCMock',
+                 'version': '2.0.1',
+                 'version_special': '~>'},
+            ],
         }
         self.assertEqual(parser.parse(PODFILE), expect)
 

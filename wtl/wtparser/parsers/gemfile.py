@@ -21,7 +21,7 @@ class GemfileParser(BaseParser):
     def get_version(self, lines):
         ruby = self._get_ruby(lines)
         r = r'''^ruby\s+(?P<quot>"|')(?P<ver>.+)(?P=quot).*$'''
-        return self._get_match_group(ruby, 'ver', r)
+        return self._get_line_match_group(ruby, 'ver', r)
 
     def get_packages(self, lines):
         gems = self._get_gems(lines)
