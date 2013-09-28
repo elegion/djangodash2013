@@ -1,9 +1,10 @@
 from __future__ import unicode_literals
 
 from .base import BaseParser
+from .regex import RegexParserMixin
 
 
-class GemfileParser(BaseParser):
+class GemfileParser(BaseParser, RegexParserMixin):
     language = 'Ruby'
     filename = 'Gemfile'
 
@@ -17,23 +18,13 @@ class GemfileParser(BaseParser):
         return self._detect_by_regex(content, res)
 
     def get_version(self, lines):
-        ruby = self._get_ruby(lines)
-        r = r'''^ruby\s+(?P<quot>"|')(?P<ver>.+)(?P=quot).*$'''
-        return self._get_line_match_group(ruby, 'ver', r)
+        return self._get_value(
+            lines, 'ruby', r'^ruby\s+(?P<quot>"|\')(?P<x>.+)(?P=quot).*$')
 
     def get_packages(self, lines):
-        return [self._get_gem(l) for l in self._get_gems(lines)]
+        return [self._gem(l) for l in self._lines_startwith(lines, 'gem ')]
 
-    def _get_ruby(self, lines):
-        return self._get_lines_startswith(lines, 'ruby ')
-
-    def _get_gems(self, lines):
-        return self._get_lines_startswith(lines, 'gem ')
-
-    def _get_gem(self, line):
-        quoted_re = r'''(?P<q>"|')(?P<x>.+)(?P=q)'''
-        version_re = r'''(?P<s>[<>=~]*)\s*(?P<n>.*)'''
-
+    def _gem(self, line):
         args = line[4:].lstrip()
         if ',' not in args:
             name_arg = args
@@ -45,15 +36,15 @@ class GemfileParser(BaseParser):
                 version = None
                 special = 'latest'
             else:
-                version_string = self._get_match(rest, 'x', quoted_re)
+                version_string = self._match(rest, 'x', self.quoted_re)
                 if version_string is None:
                     version = None
                     special = 'stable'
                 else:
-                    special, version = self._get_match_groups(version_string,
-                                                              version_re)
+                    special, version = self._match_groups(version_string,
+                                                          self.version_re)
 
-        name = self._get_match(name_arg, 'x', quoted_re)
+        name = self._match(name_arg, 'x', self.quoted_re)
         return {'name': name,
                 'version': version,
                 'version_special': special}
