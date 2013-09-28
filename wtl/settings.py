@@ -124,6 +124,7 @@ INSTALLED_APPS = (
     'django_nose',
 
     'wtl.wtlib',
+    'wtl.wtparser',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'
