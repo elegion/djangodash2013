@@ -6,8 +6,14 @@ from .parser import parse, guess, load
 from .parsers import RequirementsParser, GemfileParser, PodfileParser
 
 
-with open('requirements.txt', 'r') as f:
-    REQUIREMENTS = f.read()
+REQUIREMENTS = """
+# Example requirements.txt
+Django==1.5.4
+south>=0.8.2
+gondor
+gunicorn>=18.0,<19
+-e git+git://github.com/user/package#egg=package
+"""
 
 GEMFILE = """
 # Example Gemfile
@@ -150,6 +156,22 @@ class ParseTestCase(TestCase):
             'language': parser.language,
             'platform': None,
             'version':  None,
-            'packages': None,
+            'packages': [
+                {'name': 'Django',
+                 'version': '1.5.4',
+                 'version_special': ''},
+                {'name': 'south',
+                 'version': '0.8.2',
+                 'version_special': '>='},
+                {'name': 'gondor',
+                 'version': None,
+                 'version_special': 'stable'},
+                {'name': 'gunicorn',
+                 'version': '18.0',
+                 'version_special': '>='},
+                {'name': 'package',
+                 'version': None,
+                 'version_special': 'latest'},
+            ],
         }
         self.assertEqual(parser.parse(REQUIREMENTS), expect)

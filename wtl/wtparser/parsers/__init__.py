@@ -1,4 +1,4 @@
-from .requirements import RequirementsParser
+from .requirements_txt import RequirementsParser
 from .gemfile import GemfileParser
 from .podfile import PodfileParser
 
