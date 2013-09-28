@@ -1,5 +1,10 @@
 from __future__ import unicode_literals
 
+from . import parsers
+
+
+__all__ = ['parse']
+
 
 def parse(content, filetype=None):
     """
@@ -20,4 +25,21 @@ def parse(content, filetype=None):
         `gemfile`, `podfile`. May be `None` to ask the parser to detect the
         type automatically.
     """
-    pass
+    parser = guess(content) if filetype is None else load(filetype)
+    return parser.parse(content)
+
+
+def guess(content):
+    for name in parsers.available_parsers:
+        parser = load_by_name(name)()
+        if parser.detect(content):
+            return parser
+    raise AttributeError('No parser for this file.')
+
+
+def load(filetype):
+    return load_by_name('%sParser' % filetype.capitalize())
+
+
+def load_by_name(name):
+    return getattr(parsers, name)
