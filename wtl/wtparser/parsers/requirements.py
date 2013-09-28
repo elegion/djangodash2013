@@ -12,8 +12,8 @@ class RequirementsParser(BaseParser):
         res = [
             r'''^--index-url ''',
             r'''^-i ''',
-            r'''^--no-index$''',
-            r'''^--extra-index-url''',
+            r'''^--no-index''',
+            r'''^--extra-index-url ''',
             r'''^--find-links ''',
             r'''^-f ''',
             r'''^-r ''',

@@ -12,7 +12,7 @@ class PodfileParser(BaseParser):
         res = [
             r'''^\s*platform\s+(:ios|:osx)''',
             r'''^\s*xcodeproj\s+`.+`''',
-            r'''^\s*target.+do$''',
+            r'''^\s*target.+do''',
             r'''^\s*post_install\s+do''',
             r'''^\s*pod\s+["'].*['"]''',
         ]
