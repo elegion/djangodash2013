@@ -14,3 +14,12 @@ html, body {
   height: 30px;
   background-color: #f5f5f5;
 }
+
+#wrap > .container {
+  padding: 64px 16px 0;
+}
+
+.form-repo {
+  max-width: 400px;
+  margin: 1em auto;
+}

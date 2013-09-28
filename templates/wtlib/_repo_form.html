@@ -1,0 +1,13 @@
+{% load i18n %}
+<form class="form-vertical form-repo" method="post" action="">
+  <div class="form-group">
+    <div class="input-group">
+      <span class="input-group-addon">github.com/</span>
+      <input type="text" class="form-control" placeholder="user/repository">
+      <span class="input-group-addon">.git</span>
+    </div>
+  </div>
+  <button class="btn btn-primary btn-block" type="submit">
+    {% trans 'Scan my Repository' %}
+  </button>
+</form>
