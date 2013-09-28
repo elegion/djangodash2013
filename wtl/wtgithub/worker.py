@@ -1,3 +1,4 @@
+import base64
 from django.conf import settings
 from github import Github
 
@@ -10,14 +11,18 @@ class WorkerError(BaseException):
     """
     Base class for all worker exceptions
     """
-    pass
 
 
 class CantFindParserError(WorkerError):
     """
     Raised when can't find requirements file in given repository
     """
-    pass
+
+
+class ParseError(WorkerError):
+    """
+    Raised parser can't parse requirements file
+    """
 
 
 class GithubWorker(object):
@@ -63,10 +68,32 @@ class GithubWorker(object):
                 continue
             parser = get_parser_for_filename(node.path)
             if parser is not None:
-                return parser
+                return node.sha, parser
         raise CantFindParserError()
+
+    def _parse_requirements(self, rep, blob_sha, parser):
+        """
+        Parsers requirements file in given repository with given parser
+        Raises ParseError if parse fails
+        """
+        blob = rep.get_git_blob(blob_sha)
+        if blob.encoding == 'utf-8':
+            content = blob.content
+        elif blob.encoding == 'base64':
+            try:
+                content = base64.b64decode(blob.content).decode('utf-8')
+            except:
+                raise ParseError('Error decoding blob')
+        else:
+            raise ParseError('Unknown blob encoding')
+        try:
+            print(content)
+            return parser.parse(content)
+        except:
+            raise ParseError()
 
     def analyze_repo(self, full_name):
         rep = self.github.get_repo(full_name)
         repository = self._get_or_create_repository(rep)
-        parser = self._get_parser_for_repository(rep)
+        requirements_blob_sha, parser = self._get_parser_for_repository(rep)
+        parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
