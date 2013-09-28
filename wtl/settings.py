@@ -125,6 +125,7 @@ INSTALLED_APPS = (
 
     'wtl.wtlib',
     'wtl.wtparser',
+    'wtl.wtgithub',
 )
 
 SESSION_SERIALIZER = 'django.contrib.sessions.serializers.JSONSerializer'

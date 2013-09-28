@@ -4,6 +4,8 @@ from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
 
+from wtl.wtgithub.models import Repository as GithubRepository
+
 
 @python_2_unicode_compatible
 class Library(models.Model):
@@ -20,6 +22,9 @@ class Library(models.Model):
                                null=False, blank=True, default='')
     url_repo = models.URLField(_('repository URL'), max_length=1024,
                                null=False, blank=True, default='')
+    github = models.OneToOneField(GithubRepository, related_name='library',
+                                  verbose_name=_('github'), blank=True,
+                                  null=True)
     created_on = models.DateTimeField(auto_now_add=True)
     updated_on = models.DateTimeField(auto_now=True)
     total_users = models.BigIntegerField(_('total number of users'),
@@ -50,3 +55,33 @@ class LibraryVersion(models.Model):
 
     def __str__(self):
         return '%s %s' % (self.library.name, self.version)
+
+
+@python_2_unicode_compatible
+class Project(models.Model):
+    """
+    Project
+
+    Contains information about projects using libraries.
+    """
+    name = models.CharField(_('name'), max_length=512,
+                            null=False, blank=False)
+    github = models.OneToOneField(GithubRepository, related_name='project',
+                                  verbose_name=_('github'), blank=True,
+                                  null=True)
+    libraries = models.ManyToManyField(Library, through='ProjectLibrary',
+                                       verbose_name=_('libraries'))
+
+
+@python_2_unicode_compatible
+class ProjectLibrary(models.Model):
+    """
+    ProjectLibrary
+
+    Contains information about Libraries used by Projects (current and old)
+    """
+    project = models.ForeignKey(Project)
+    library = models.ForeignKey(Library)
+    libraryVersion = models.ForeignKey(LibraryVersion)
+    added_on = models.DateTimeField()
+    removed_on = models.DateTimeField(blank=True, null=True)
