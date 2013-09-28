@@ -8,14 +8,38 @@ from wtl.wtgithub.models import Repository as GithubRepository
 
 
 @python_2_unicode_compatible
+class Language(models.Model):
+    """
+    A language. Programming language.
+    """
+    name = models.CharField(_('name'), max_length=128,
+                            null=False, blank=False)
+    slug = models.SlugField(_('slug'), null=False, blank=False)
+    url_home = models.URLField(_('homepage URL'), max_length=1024,
+                               null=False, blank=True, default='')
+    color = models.CharField(_('color'), max_length=32, null=False, blank=True,
+                             default="#ffffff")
+
+    def __str__(self):
+        return self.name
+
+    class Meta():
+        verbose_name = _('language')
+        verbose_name_plural = _('languages')
+
+
+@python_2_unicode_compatible
 class Library(models.Model):
     """
     Library.
 
     This is what all this is about.
     """
+    language = models.ForeignKey(Language, verbose_name=_('language'),
+                                 null=False, blank=False)
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
+    slug = models.SlugField(_('slug'), null=False, blank=False)
     url_home = models.URLField(_('homepage URL'), max_length=1024,
                                null=False, blank=True, default='')
     url_docs = models.URLField(_('documentation URL'), max_length=1024,
@@ -25,14 +49,14 @@ class Library(models.Model):
     github = models.OneToOneField(GithubRepository, related_name='library',
                                   verbose_name=_('github'), blank=True,
                                   null=True)
-    created_on = models.DateTimeField(auto_now_add=True)
-    updated_on = models.DateTimeField(auto_now=True)
     total_users = models.BigIntegerField(_('total number of users'),
                                          null=False, blank=True, default=0,
-                                         editable=False)
+                                         editable=False, db_index=True)
 
     class Meta():
-        ordering = ('name',)
+        ordering = ('-total_users',)
+        verbose_name = _('library')
+        verbose_name_plural = _('libraries')
 
     def __str__(self):
         return self.name
@@ -49,12 +73,18 @@ class LibraryVersion(models.Model):
     library = models.ForeignKey(Library)
     version = models.CharField(_('version'), max_length=128,
                                null=False, blank=False)
+    release_date = models.DateField(null=True, blank=True, db_index=True)
     total_users = models.BigIntegerField(_('total number of users'),
                                          null=False, blank=True, default=0,
                                          editable=False)
 
     def __str__(self):
         return '%s %s' % (self.library.name, self.version)
+
+    class Meta():
+        ordering = ('-release_date',)
+        verbose_name = _('library version')
+        verbose_name_plural = _('library versions')
 
 
 @python_2_unicode_compatible
@@ -72,13 +102,17 @@ class Project(models.Model):
     libraries = models.ManyToManyField(Library, through='ProjectLibrary',
                                        verbose_name=_('libraries'))
 
+    class Meta():
+        verbose_name = _('project')
+        verbose_name_plural = _('projects')
+
 
 @python_2_unicode_compatible
 class ProjectLibrary(models.Model):
     """
     ProjectLibrary
 
-    Contains information about Libraries used by Projects (current and old)
+    Contains information about Libraries used by Projects (current and old).
     """
     project = models.ForeignKey(Project)
     library = models.ForeignKey(Library)
