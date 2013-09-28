@@ -23,14 +23,6 @@ group :production do
   gem 'unicorn'
   gem 'exception_notification', github: 'smartinez87/exception_notification'
 end
-
-group :development, :test do
-  gem 'factory_girl_rails', require: false
-end
-
-group :deploy do
-  gem 'capistrano-scrip', git: 'git://github.com/elegion/capistrano-scrip.git'
-end
 """
 
 PODFILE = """
@@ -42,6 +34,7 @@ xcodeproj `MyProject`
 pod 'SSToolkit'
 pod 'AFNetworking', '>= 0.5.1'
 pod 'Objection', :head # 'bleeding edge'
+pod 'Rejection', '0.0.0'
 
 target :test do
   pod 'OCMock', '~> 2.0.1'
@@ -89,6 +82,8 @@ class LoadTestCase(TestCase):
 
 
 class ParseTestCase(TestCase):
+    maxDiff = None
+
     def test_podfile(self):
         parser = PodfileParser()
         expect = {
@@ -106,6 +101,9 @@ class ParseTestCase(TestCase):
                 {'name': 'Objection',
                  'version': None,
                  'version_special': 'latest'},
+                {'name': 'Rejection',
+                 'version': '0.0.0',
+                 'version_special': ''},
                 {'name': 'OCMock',
                  'version': '2.0.1',
                  'version_special': '~>'},
@@ -120,7 +118,26 @@ class ParseTestCase(TestCase):
             'language': parser.language,
             'platform': None,
             'version':  '2.0.0',
-            'packages': [],
+            'packages': [
+                {'name': 'rails',
+                 'version': '4.0.0',
+                 'version_special': ''},
+                {'name': 'rails-i18n',
+                 'version': '4.0.0.pre',
+                 'version_special': '~>'},
+                {'name': 'mysql2',
+                 'version': None,
+                 'version_special': 'stable'},
+                {'name': 'yajl-ruby',
+                 'version': None,
+                 'version_special': 'stable'},
+                {'name': 'unicorn',
+                 'version': None,
+                 'version_special': 'stable'},
+                {'name': 'exception_notification',
+                 'version': None,
+                 'version_special': 'latest'},
+            ],
         }
         self.assertEqual(parser.parse(GEMFILE), expect)
 
