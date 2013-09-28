@@ -1,7 +1,6 @@
 from __future__ import unicode_literals
 
 import re
-from operator import methodcaller
 
 
 class BaseParser(object):
@@ -31,8 +30,7 @@ class BaseParser(object):
         }
 
     def _get_lines_startswith(self, lines, init):
-        return filter(methodcaller('startswith', init),
-                      map(methodcaller('strip'), lines))
+        return [l.strip() for l in lines if l.strip().startswith(init)]
 
     def _get_match_group(self, lines, group, regex):
         if len(lines) > 0:
