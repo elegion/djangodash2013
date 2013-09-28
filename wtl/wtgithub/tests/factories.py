@@ -6,6 +6,7 @@ from wtl.wtgithub import models
 
 class RepositoryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.Repository
+
     name = 'myproj'
     owner = 'me'
     starsCount = 0

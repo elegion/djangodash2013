@@ -3,7 +3,7 @@ from django.conf import settings
 from github import Github
 
 from wtl.wtgithub.models import Repository
-from wtl.wtlib.models import Project
+from wtl.wtlib.models import Project, Library, LibraryVersion, Language
 from wtl.wtparser.parser import get_parser_for_filename
 
 
@@ -51,10 +51,10 @@ class GithubWorker(object):
         repository.description = rep.description
         repository.save()
         try:
-            repository.project
+            project = repository.project
         except Project.DoesNotExist:
-            Project.objects.create(github=repository, name=rep.name)
-        return rep, repository
+            project = Project.objects.create(github=repository, name=rep.name)
+        return repository, project
 
     def _get_parser_for_repository(self, rep):
         """
@@ -92,8 +92,23 @@ class GithubWorker(object):
         except:
             raise ParseError()
 
+    def _save_parsed_requirements(self, project, parsed):
+        """
+        Saves parsed requirements to database
+        """
+        language = Language.objects.get(name=parsed['language'])
+        for package_dict in parsed['packages']:
+            library = Library.objects.get_or_create(language=language,
+                                                    name=package_dict['name'])[0]
+            version = LibraryVersion.objects.get_or_create(library=library,
+                                                           version=package_dict['version'])[0]
+            version.total_users += 1
+            version.save()
+            project.libraries.add(version)
+
     def analyze_repo(self, full_name):
         rep = self.github.get_repo(full_name)
-        repository = self._get_or_create_repository(rep)
+        repository, project = self._get_or_create_repository(rep)
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
+        self._save_parsed_requirements(project, parsed)

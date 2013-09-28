@@ -70,7 +70,7 @@ class LibraryVersion(models.Model):
     A library may have many versions. We need to keep that in mind, and in the
     database!
     """
-    library = models.ForeignKey(Library)
+    library = models.ForeignKey(Library, related_name='versions')
     version = models.CharField(_('version'), max_length=128,
                                null=False, blank=False)
     release_date = models.DateField(null=True, blank=True, db_index=True)
@@ -99,23 +99,11 @@ class Project(models.Model):
     github = models.OneToOneField(GithubRepository, related_name='project',
                                   verbose_name=_('github'), blank=True,
                                   null=True)
-    libraries = models.ManyToManyField(Library, through='ProjectLibrary',
-                                       verbose_name=_('libraries'))
+    libraries = models.ManyToManyField(LibraryVersion,
+                                       verbose_name=_('libraries'),
+                                       related_name='projects')
 
     class Meta():
         verbose_name = _('project')
         verbose_name_plural = _('projects')
 
-
-@python_2_unicode_compatible
-class ProjectLibrary(models.Model):
-    """
-    ProjectLibrary
-
-    Contains information about Libraries used by Projects (current and old).
-    """
-    project = models.ForeignKey(Project)
-    library = models.ForeignKey(Library)
-    libraryVersion = models.ForeignKey(LibraryVersion)
-    added_on = models.DateTimeField()
-    removed_on = models.DateTimeField(blank=True, null=True)

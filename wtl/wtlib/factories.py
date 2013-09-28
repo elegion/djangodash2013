@@ -20,3 +20,7 @@ class LibraryVersionFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.LibraryVersion
     library = factory.SubFactory(LibraryFactory)
     version = '0.1.0-alpha'
+
+
+class ProjectFactory(factory.DjangoModelFactory):
+    FACTORY_FOR = models.Project
