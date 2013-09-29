@@ -27,6 +27,7 @@ class StreamingLogResponseHandler(logging.Handler):
         return False
 
 
+# FIXME: on_finish callback to insert adittional text in footer
 # TODO: log level restoring
 # TODO: custom formatters
 # TODO: allow different formatters for each logger
