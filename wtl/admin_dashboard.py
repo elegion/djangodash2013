@@ -17,6 +17,13 @@ from admin_tools.dashboard import modules, Dashboard
 from admin_tools.utils import get_admin_site_name
 
 
+class GithubCrawlerDashboardModule(modules.DashboardModule):
+    template = 'admin/github_crawler_dashboard.html'
+    collapsible = False
+    deletable = False
+    def is_empty(self):
+        return False
+
 class CustomIndexDashboard(Dashboard):
     """
     Custom index dashboard for wtl.
@@ -24,6 +31,8 @@ class CustomIndexDashboard(Dashboard):
     def init_with_context(self, context):
         site_name = get_admin_site_name(context)
         # append a link list module for "quick links"
+        self.children.append(GithubCrawlerDashboardModule(_('Github crawler')))
+
         self.children.append(modules.LinkList(
             _('Quick links'),
             layout='inline',

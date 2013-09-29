@@ -1,0 +1,32 @@
+{% load i18n %}
+{% if not module.is_empty %}
+  <div id="module_{{ module.id }}" class="{{ module.render_css_classes }}">
+    {% if module.show_title and module.title %}<h2>{% if module.title_url %}<a href="{{ module.title_url }}">{% trans module.title %}</a>{% else %}{% trans module.title %}{% endif %}</h2>{% endif %}
+    <div class="dashboard-module-content">
+      <p style="font-size:150%; font-family: 'HelveticaNeue-Light', 'Helvetica Neue Light', 'Helvetica Neue', Helvetica, Arial, 'Lucida Grande', sans-serif; font-weight: 300;">
+        Hello! We have made a small github crawler which loads most popular github repositories for given language
+        and analyzes their requirements, so library usage statistics should populate automatically. Press one
+        of the buttons below to launch crawler.
+      </p>
+      <form method="post" style="text-align: center;">
+        {% csrf_token %}
+        <input type="submit" name="language" value="Python" style="font-size: 200%; margin: 0 40px 40px;" />
+        <input type="submit" name="language" value="Ruby" style="font-size: 200%; margin: 0 40px 40px;" />
+        <input type="submit" name="language" value="Objective-C" style="font-size: 200%; margin: 0 40px 40px;" />
+      </form>
+      {% spaceless %}
+      {% if module.pre_content %}
+      <p>{{ module.pre_content }}</p>
+      {% endif %}
+      {% block module_content %}
+      {% for child in module.children %}
+      {{ child }}
+      {% endfor %}
+      {% endblock %}
+      {% if module.post_content %}
+      <p>{{ module.post_content }}</p>
+      {% endif %}
+      {% endspaceless %}
+    </div>
+  </div>
+{% endif %}
