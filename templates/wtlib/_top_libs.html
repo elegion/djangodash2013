@@ -3,13 +3,14 @@
   {% for lang in top_languages %}
     <section class="col-md-4">
       <div class="well well-sm" style="border-color: {{ lang.color }}">
-        <h4><a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a></h4>
+        <h2><a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a></h2>
+        {% if lang.id != 1 %}
+          <p>We had no time to implement automatic library description fetching for Ruby and Objective-C, so currently
+          these descriptions can be added only manually via admin interface.</p>
+        {% endif %}
         <ul class="list-unstyled libraries-list">
-          {% for lib in lang.top_libraries %}
-            <li>
-              <a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a>
-              <small title="{% trans 'Total users' %}">({{ lib.total_users }})</small>
-            </li>
+          {% for library in lang.top_libraries %}
+            {% include 'wtlib/_library.html' %}
           {% endfor %}
         </ul>
       </div>

@@ -32,7 +32,12 @@ html, body {
 
 .top-libraries {
   margin: 0 auto;
+  word-wrap: break-word;
 }
+  .top-libraries h2 {
+    margin-top: 10px;
+    margin-bottom: 20px;
+  }
 
 /* Project page */
 .project-info {

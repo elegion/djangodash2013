@@ -1,0 +1,10 @@
+{% load i18n %}
+<li>
+  <h3>
+    <a href="{{ library.get_absolute_url }}">{{ library.name }}</a>
+    <small title="{% trans 'Total users' %}">({{ library.total_users }})</small>
+  </h3>
+
+  {% if library.short_description %}<p>{{ library.short_description }}</p>{% endif %}
+  {% for tag in library.tags.all %}<a href="{% url 'wtlib_libraries_list_by_tag' language_slug=library.language.slug tag=tag.slug %}">{{ tag }}</a>{% if not forloop.last %}, {% endif %}{% endfor %}
+</li>
