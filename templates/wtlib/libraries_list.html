@@ -5,7 +5,7 @@
   <h1 class="page-header">{% trans 'Libraries' %}</h1>
   <ul>
   {% for lib in libraries %}
-    <li><a href="{% url 'wtlib_library' library_slug=lib.slug %}">{{ lib.name }}</a></li>
+    <li><a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a></li>
   {% endfor %}
   </ul>
 {% endblock %}
