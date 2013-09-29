@@ -9,19 +9,19 @@ from wtl.wtparser.parser import get_parser_for_filename
 
 class WorkerError(BaseException):
     """
-    Base class for all worker exceptions
+    Base class for all worker exceptions.
     """
 
 
 class CantFindParserError(WorkerError):
     """
-    Raised when can't find requirements file in given repository
+    Raised when can't find requirements file in given repository.
     """
 
 
 class ParseError(WorkerError):
     """
-    Raised parser can't parse requirements file
+    Raised when parser can't parse requirements file.
     """
 
 
@@ -38,14 +38,14 @@ class GithubWorker(object):
 
     def _get_repo(self, full_name):
         """
-        Fetches github repository information
+        Fetches GitHub repository information.
         """
         return self.github.get_repo(full_name)
 
     def _get_or_create_repository(self, rep):
         """
-        creates (if does not exist) and returns:
-        `wtgithub.models.Repository` and `wtlib.models.Project`
+        Creates (if does not exist) and returns:
+        `wtgithub.models.Repository` and `wtlib.models.Project`.
         """
         try:
             repository = Repository.objects.get(name=rep.name,
@@ -64,8 +64,9 @@ class GithubWorker(object):
     def _get_parser_for_repository(self, rep):
         """
         Analyzes repository tree to find corresponding requirements parser.
-        Currently analyzes only repository root and returns first matching parser.
-        Raises CantFindParserError if can't determine parser for given repository.
+        Currently analyzes only repository root and returns first matching
+        parser. Raises `CantFindParserError` if can't determine parser for
+        given repository.
         """
         tree = rep.get_git_tree('master')
         for node in tree.tree:
@@ -78,8 +79,8 @@ class GithubWorker(object):
 
     def _parse_requirements(self, rep, blob_sha, parser):
         """
-        Parsers requirements file in given repository with given parser
-        Raises ParseError if parse fails
+        Parses requirements file in given repository with given parser
+        Raises `ParseError` if parse fails.
         """
         blob = rep.get_git_blob(blob_sha)
         if blob.encoding == 'utf-8':
@@ -98,7 +99,7 @@ class GithubWorker(object):
 
     def _save_parsed_requirements(self, project, parsed):
         """
-        Saves parsed requirements to database
+        Saves parsed requirements to database.
         """
         language = Language.objects.get(name=parsed['language'])
         for package_dict in parsed['packages']:
