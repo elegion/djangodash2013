@@ -42,6 +42,9 @@ class Language(models.Model):
             l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
 
+    def get_absolute_url(self):
+        return reverse('wtlib_libraries_list', args=[self.slug])
+
     def top_libraries(self):
         return self.libraries.filter(total_users__gt=0)[:5]
 
