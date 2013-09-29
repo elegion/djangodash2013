@@ -28,7 +28,10 @@ class PodfileParser(BaseParser, RegexParserMixin):
             r'^platform\s+:\w+\s*,\s*(?P<quot>"|\')(?P<x>.+)(?P=quot)')
 
     def get_packages(self, lines):
-        return [self._pod(p) for p in self._lines_startwith(lines, 'pod ')]
+        res = [self._pod(p) for p in self._lines_startwith(lines, 'pod ')]
+        def is_valid(p):
+            return p['name'] and (p['version'] or p['version_special'])
+        return list(filter(is_valid, res))
 
     def _pod(self, line):
         args = line[4:].lstrip()
