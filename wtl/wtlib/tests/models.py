@@ -63,7 +63,6 @@ class LibraryVersionTestCase(TestCase):
         project_2_3_4.libraries.add(LibraryVersionFactory(library=lib4))
 
         lib1_result = lib1.often_used_with()
-        print(lib1_result.query)
         self.assertEqual(lib2.name, lib1_result[0].name)
         self.assertEqual(2, lib1_result[0].usage_count)
         self.assertEqual(lib3.name, lib1_result[1].name)
