@@ -10,5 +10,5 @@ from wtl.wtgithub.worker import GithubBulkWorker
 def crawl(request):
     crawler = GithubBulkWorker()
     return StreamingLogHttpResponse(crawler.analyze_repos,
-                                    logs={'wtl': 'INFO'},
+                                    logs={'wtl': 'DEBUG'},
                                     args=[request.REQUEST.get('language')])

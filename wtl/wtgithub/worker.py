@@ -170,21 +170,26 @@ class GithubBulkWorker(BaseGithubWorker):
         self.github_worker = GithubWorker(github)
 
     def _get_repositories(self, language):
+        logger.info('Preparing request for api.github.com/search/repositories')
         return self.github.search_repos('language:%s' % language)
 
     def _check_repository_analyzed(self, rep):
         return Project.objects.filter(github__name=rep.name,
                                       github__owner=rep.owner._identity).count() != 0
 
-    def analyze_repos(self, language, count=10):
+    def analyze_repos(self, language, count=100):
+        logger.info('Start analyzing repositories for language: %s', language)
         repositories = self._get_repositories(language)
         analyzed_repos = 0
         for rep in repositories:
+            logger.debug('Will analyze repository: %s', rep.full_name)
             if self._check_repository_analyzed(rep):
+                logger.debug('Already analysed, skipping...')
                 continue
             analyzed_repos += 1
             try:
                 self.github_worker.analyze_repo(rep=rep)
             except BaseException as e:
-                # TODO: log exceptions
-                pass
+                logger.error('Error analysing repository: %s', e.__repr__())
+            else:
+                logger.debug('Analysed repository successfully. %i to go...', count-analyzed_repos)
