@@ -24,15 +24,17 @@
     </section>
   {% endif %}
   <h2>{% trans 'Dependencies' %}</h2>
-  <dl class="dl-horizontal">
-    {% for lib in project.libraries.all %}
-      <dt>
-        <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
-      </dt>
-      <dd>
-        {% if lib.version %}{{ lib.version }}{% else %}<em title="{% trans 'Latest stable' %}">{{ lib.version_special }}</em>{% endif %}
-        {% if lib.library.short_description %}<small class="text-muted">({{ lib.library.short_description }})</small>{% endif %}
-      </dd>
-    {% endfor %}
-  </dl>
+  <section class="dependencies-list">
+    <dl class="dl-horizontal">
+      {% for lib in project.libraries.all %}
+        <dt>
+          <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
+        </dt>
+        <dd>
+          {% if lib.version %}{{ lib.version }}{% else %}<em title="{% trans 'Latest stable' %}">{{ lib.version_special }}</em>{% endif %}
+          {% if lib.library.short_description %}<small class="text-muted">({{ lib.library.short_description }})</small>{% endif %}
+        </dd>
+      {% endfor %}
+    </dl>
+  </section>
 {% endblock %}

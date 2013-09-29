@@ -33,6 +33,27 @@ html, body {
   margin: 3em auto;
 }
 
+/* Project page */
+.project-info {
+}
+  .project-info dt,
+  .project-info dd {
+    margin-bottom: .2em;
+  }
+
+.dependencies-list {
+
+}
+  .dependencies-list dt,
+  .dependencies-list dd {
+    margin-bottom: .2em;
+  }
+  .dependencies-list dt {
+    width: 200px;
+  }
+  .dependencies-list dd {
+    margin-left: 220px;
+  }
 /* StreaminLogResponse page */
 .log-entry {
   margin: 1em;
