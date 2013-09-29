@@ -3,6 +3,19 @@
 
 {% block content %}
   <h1 class="page-header">{{ library.name }} <small title="{% trans 'Total users' %}">({{ library.total_users }})</small></h1>
+  {% if library.url_home or library.url_docs or library.url_repo %}
+    <ul class="list-inline library-links-list">
+      {% if library.url_home %}
+        <li><a href="{{ library.url_home }}">{% trans 'Homepage' %}</a></li>
+      {% endif %}
+      {% if library.url_docs %}
+        <li><a href="{{ library.url_docs }}">{% trans 'Documentation' %}</a></li>
+      {% endif %}
+      {% if library.url_repo %}
+        <li><a href="{{ library.url_repo }}">{% trans 'Repository' %}</a></li>
+      {% endif %}
+    </dl>
+  {% endif %}
   {% if library.short_description %}
     <h2>{% trans 'Description' %}</h2>
     <article class="library-short-description">
