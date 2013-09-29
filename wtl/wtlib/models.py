@@ -5,6 +5,7 @@ from autoslug import AutoSlugField
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
+from taggit.managers import TaggableManager
 
 from wtl.wtgithub.models import Repository as GithubRepository
 
@@ -76,6 +77,8 @@ class Library(models.Model):
     total_users = models.BigIntegerField(_('total number of users'),
                                          null=False, blank=True, default=0,
                                          editable=False, db_index=True)
+
+    tags = TaggableManager()
 
     class Meta():
         ordering = ('-total_users',)
