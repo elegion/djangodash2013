@@ -25,19 +25,27 @@ def libraries_list(request, language_slug):
         libs = libs.filter(language__slug=language_slug)
     return render(request, 'wtlib/libraries_list.html',
                   {'libraries': libs,
-                   'mixed_languages': language_slug is None})
+                   'mixed_languages': language_slug is None,
+                   'active_menu': 'libraries',
+                   'active_language': language_slug})
 
 
 def library(request, language_slug, library_slug):
     lib = get_object_or_404(Library, slug=library_slug)
-    return render(request, 'wtlib/library.html', {'library': lib})
+    return render(request, 'wtlib/library.html',
+                  {'library': lib,
+                   'active_language': language_slug})
 
 
 def projects_list(request):
     projects = Project.objects.all()
-    return render(request, 'wtlib/projects_list.html', {'projects': projects})
+    return render(request, 'wtlib/projects_list.html',
+                  {'projects': projects,
+                   'active_menu': 'projects'})
 
 
 def project(request, project_slug):
     project = get_object_or_404(Project, slug=project_slug)
-    return render(request, 'wtlib/project.html', {'project': project})
+    return render(request, 'wtlib/project.html',
+                  {'project': project,
+                   'active_menu': 'projects'})
