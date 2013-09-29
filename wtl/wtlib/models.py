@@ -165,4 +165,11 @@ class Project(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('wtlib_project', args=[self.slug])
+        return reverse('wtlib_project', args=[self.language_slug, self.slug])
+
+    @property
+    def language_slug(self):
+        try:
+            return self.libraries.all()[0].library.language.slug
+        except IndexError:
+            return None
