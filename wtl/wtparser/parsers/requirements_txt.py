@@ -43,6 +43,12 @@ class RequirementsParser(BaseParser):
 
     def _get_package_info(self, package_name):
         library_name = package_name.lower()
+        try:
+            #TODO: update library info
+            return Library.objects.get(language=self.language_instance, name=library_name)
+        except Library.DoesNotExist:
+            pass
+
         def _request(url, timeout=None):
             r = urllib2.Request(url)
             return urllib2.urlopen(r, timeout=timeout).read().decode('utf-8')

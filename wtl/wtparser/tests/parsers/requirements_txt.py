@@ -11,7 +11,7 @@ from django.test import TestCase
 from exam.asserts import AssertsMixin
 import mock
 
-from wtl.wtlib.factories import LanguageFactory
+from wtl.wtlib.factories import LanguageFactory, LibraryFactory
 from wtl.wtlib.models import Library
 from wtl.wtparser.parsers import RequirementsParser
 
@@ -102,6 +102,11 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         self.assertEqual('', library.url_docs)
         self.assertEqual('A high-level Python Web framework that encourages rapid development and clean, pragmatic design.', library.short_description)
         self.assertEqual('BSD', library.license)
+
+    def test_does_nothing_if_library_exist(self):
+        LibraryFactory(language=self.parser.language_instance, name='django')
+        with self.assertDoesNotChange(Library.objects.count):
+            self.parser._get_package_info('django')
 
     def test_returns_none_on_http_error(self):
         with self.assertDoesNotChange(Library.objects.count):
