@@ -1,6 +1,7 @@
 from __future__ import unicode_literals
 from django.core.urlresolvers import reverse
 
+from autoslug import AutoSlugField
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.translation import ugettext_lazy as _
@@ -17,7 +18,7 @@ class Language(models.Model):
     """
     name = models.CharField(_('name'), max_length=128,
                             null=False, blank=False)
-    slug = models.SlugField(_('slug'), null=False, blank=False)
+    slug = AutoSlugField(populate_from='name', unique=True)
     url_home = models.URLField(_('homepage URL'), max_length=1024,
                                null=False, blank=True, default='')
     color = models.CharField(_('color'), max_length=32, null=False, blank=True,
@@ -42,8 +43,7 @@ class Library(models.Model):
                                  null=False, blank=False)
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
-    # TODO: use autoslug field
-    slug = models.SlugField(_('slug'), null=False, blank=False)
+    slug = AutoSlugField(populate_from='name', unique=True)
     short_description = models.TextField()
     license = models.CharField(max_length=32)
     url_home = models.URLField(_('homepage URL'), max_length=1024,
@@ -127,6 +127,7 @@ class Project(models.Model):
     """
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
+    slug = AutoSlugField(populate_from='name', unique=True)
     github = models.OneToOneField(GithubRepository, related_name='project',
                                   verbose_name=_('github'), blank=True,
                                   null=True)

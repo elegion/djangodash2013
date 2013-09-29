@@ -4,7 +4,7 @@ from wtl.wtlib import models as wtlib
 
 
 class LanguageAdmin(admin.ModelAdmin):
-    prepopulated_fields = {'slug': ('name',)}
+    pass
 
 
 class LibraryVersionInline(admin.StackedInline):
@@ -13,7 +13,6 @@ class LibraryVersionInline(admin.StackedInline):
 
 class LibraryAdmin(admin.ModelAdmin):
     inlines = [LibraryVersionInline]
-    prepopulated_fields = {'slug': ('name',)}
 
 
 class ProjectAdmin(admin.ModelAdmin):
