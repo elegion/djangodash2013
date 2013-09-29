@@ -20,6 +20,9 @@
                 <a href="{{ lang.get_absolute_url }}" style="color: {{ lang.color }}">{{ lang.name }}</a>
               </li>
             {% endfor %}
+              <li{% if active_menu == 'libraries' and not active_language %} class="active"{% endif %}>
+                <a href="{% url 'wtlib_libraries_list' %}">{% trans 'All' %}</a>
+              </li>
             </ul>
           </li>
           <li class="dropdown{% if active_menu == 'projects' %} active{% endif %}">
