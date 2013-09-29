@@ -2,7 +2,8 @@
 <section class="top-libraries row">
   {% for lang in top_languages %}
     <section class="col-md-4">
-      <div class="well">
+      <div class="well well-sm">
+        <h4>{{ lang.name }}</h4>
         <ul class="list-unstyled libraries-list">
           {% for lib in lang.top_libraries %}
             <li>
