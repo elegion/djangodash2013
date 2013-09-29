@@ -102,10 +102,11 @@ class GithubWorker(object):
         """
         language = Language.objects.get(name=parsed['language'])
         for package_dict in parsed['packages']:
-            library = Library.objects.get_or_create(language=language,
-                                                    name=package_dict['name'])[0]
-            version = LibraryVersion.objects.get_or_create(library=library,
-                                                           version=package_dict['version'])[0]
+            library, _ = Library.objects.get_or_create(
+                language=language, name=package_dict['name'])
+            version, _ = LibraryVersion.objects.get_or_create(
+                library=library, version=package_dict['version'],
+                version_special=package_dict['version_special'])
             version.total_users += 1
             version.save()
             project.libraries.add(version)

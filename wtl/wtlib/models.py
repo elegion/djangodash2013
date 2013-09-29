@@ -78,7 +78,9 @@ class LibraryVersion(models.Model):
     """
     library = models.ForeignKey(Library, related_name='versions')
     version = models.CharField(_('version'), max_length=128,
-                               null=False, blank=False)
+                               null=True, blank=True)
+    version_special = models.CharField(_('version special'), max_length=128,
+                                       null=True, blank=True)
     release_date = models.DateField(null=True, blank=True, db_index=True)
     total_users = models.BigIntegerField(_('total number of users'),
                                          null=False, blank=True, default=0,
