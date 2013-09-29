@@ -1,4 +1,5 @@
 {% extends 'base.html' %}
+{% load i18n %}
 
 {% block content %}
   <h1 class="page-header">{{ project.name }}</h1>
@@ -9,7 +10,7 @@
         <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
       </dt>
       <dd>
-        {{ lib.version|default_if_none:lib.version_special }}
+        {% if lib.version %}{{ lib.version }}{% else %}<em title="{% trans 'Latest stable' %}">{{ lib.version_special }}</em>{% endif %}
         {% if lib.library.short_description %}<small class="text-muted">({{ lib.library.short_description }})</small>{% endif %}
       </dd>
     {% endfor %}
