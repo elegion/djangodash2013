@@ -1,5 +1,6 @@
 from __future__ import unicode_literals
 import os
+import re
 import sys
 
 from django.test import TestCase
@@ -74,7 +75,8 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         super(GetPackageInfoTestCase, self).setUp()
 
         def urlopenMock(request, timeout):
-            return open(os.path.join(os.path.dirname(__file__), 'test_responses', 'pypi', 'django.json'), 'rb')
+            path = re.sub('\/json$', '.json', request.selector).lstrip('/')
+            return open(os.path.join(os.path.dirname(__file__), 'test_responses', path), 'rb')
         if sys.version_info >= (3,):
             self.urllibPatch = mock.patch('urllib.request.urlopen', urlopenMock)
         else:
