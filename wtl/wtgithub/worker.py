@@ -99,7 +99,7 @@ class GithubWorker(BaseGithubWorker):
         try:
             return parser.parse(content)
         except:
-            raise ParseError()
+            raise
 
     def _save_parsed_requirements(self, project, parsed):
         """
