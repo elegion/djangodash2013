@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from wtl.streaming_log_response.middleware import StreamingLogResponseGenerator
+from wtl.streaming_log_response.generator import StreamingLogResponseGenerator
 
 from wtl.wtcore.utils import paginate
 from wtl.wtlib.forms import AnalyzeForm

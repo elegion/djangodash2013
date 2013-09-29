@@ -1,7 +1,7 @@
 from django.contrib.auth.decorators import permission_required
 from django.http import StreamingHttpResponse
 from django.views.decorators.http import require_POST
-from wtl.streaming_log_response.middleware import StreamingLogResponseGenerator
+from wtl.streaming_log_response.generator import StreamingLogResponseGenerator
 
 from wtl.wtgithub.worker import GithubBulkWorker
 
