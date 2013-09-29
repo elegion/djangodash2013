@@ -79,10 +79,12 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         super(GetPackageInfoTestCase, self).setUp()
 
         def urlopenMock(request, timeout):
-            filename = re.sub('\/json$', '.json', request.selector).lstrip('/')
+            selector = getattr(request, 'selector', None) or request.get_selector()
+            full_url = getattr(request, 'full_url', None) or request.get_full_url()
+            filename = re.sub('\/json$', '.json', selector).lstrip('/')
             path = os.path.join(os.path.dirname(__file__), 'test_responses', filename)
             if not os.path.exists(path):
-                raise urllib2.HTTPError(request.full_url, 404, 'not found', {}, None)
+                raise urllib2.HTTPError(full_url, 404, 'not found', {}, None)
             return open(path, 'rb')
         if sys.version_info >= (3,):
             self.urllibPatch = mock.patch('urllib.request.urlopen', urlopenMock)
