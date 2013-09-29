@@ -1,5 +1,13 @@
 {% extends 'base.html' %}
 
 {% block content %}
+  <h1 class="page-header">{{ project.name }}</h1>
+  <h2>Dependencies</h2>
+  <dl>
+  {% for lib in project.libraries.all %}
+    <dt>{{ lib.library.name }}</dt>
+    <dd>{{ lib.version }}</dd>
+  {% endfor %}
+  </dl>
   Here be dragons!
 {% endblock %}
