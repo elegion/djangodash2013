@@ -2,6 +2,7 @@ from __future__ import unicode_literals
 
 from django.shortcuts import render, redirect, get_object_or_404
 
+from wtl.wtcore.utils import paginate
 from wtl.wtlib.forms import AnalyzeForm
 from wtl.wtlib.models import Language, Project, Library
 
@@ -25,6 +26,7 @@ def libraries_list(request, language_slug):
     if language_slug:
         language = get_object_or_404(Language, slug=language_slug)
         libs = libs.filter(language__slug=language_slug)
+    libs = paginate(libs, 16, request.GET.get('page'))
     return render(request, 'wtlib/libraries_list.html',
                   {'libraries': libs,
                    'mixed_languages': language_slug is None,

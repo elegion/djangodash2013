@@ -31,4 +31,6 @@
       {% endfor %}
     </tbody>
   </table>
+
+  {% include 'shared/pagination.html' with items=libraries only %}
 {% endblock %}
