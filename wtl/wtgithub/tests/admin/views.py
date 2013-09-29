@@ -24,12 +24,6 @@ class CrawlTestCase(TestCase):
         response = self.client.get(reverse('wtgithub_admin_crawl'))
         self.assertEqual(405, response.status_code)
 
-    def test_responds_ok(self):
-        user = SuperuserFactory()
-        self.client.login(username=user.username, password=FACTORY_USER_PASSWORD)
-        response = self.client.post(reverse('wtgithub_admin_crawl'))
-        self.assertContains(response, 'Ok!')
-
     # My brain is blown after 2 days of djangodash and I can't implement this test >_<
     #def test_runs_worker_with_given_language(self):
     #    user = SuperuserFactory()
