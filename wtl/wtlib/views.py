@@ -12,7 +12,12 @@ def home(request):
     if request.method == 'POST':
         form = AnalyzeForm(request.POST)
         if form.is_valid():
-            return StreamingLogHttpResponse(form.analyze, {'wtl': 'INFO'})
+            def on_success(repository, project):
+                url = project.get_absolute_url()
+                return '<h2>Analysis complete! ' \
+                       '<a href="%s">See results.</a></h2>' % url
+            return StreamingLogHttpResponse(form.analyze, {'wtl': 'INFO'},
+                                            callback=on_success)
     else:
         form = AnalyzeForm()
     top_languages = Language.objects.filter(total_users__gt=0)[:3]

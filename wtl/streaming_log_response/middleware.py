@@ -36,11 +36,13 @@ class StreamingLogResponseGenerator(object):
     thread = None
     messages = []
     handlers = {}
+    callback = None
 
-    def __init__(self, func, logs, args=None, kwargs=None):
+    def __init__(self, func, logs, args=None, kwargs=None, callback=None):
         super(StreamingLogResponseGenerator, self).__init__()
         self.messages = []
         self.setup_logging(logs)
+        self.callback = callback
         if args is None:
             args = []
         if kwargs is None:
@@ -75,6 +77,9 @@ class StreamingLogResponseGenerator(object):
             for message in self.messages:
                 yield message
             self.messages = []
+        result = self.thread.join()
+        if self.callback:
+            yield self.callback(*result)
         yield HTML_FOOTER
         self.teardown_logging()
 
@@ -85,5 +90,6 @@ class StreamingLogResponseMiddleware(object):
             response.streaming_content = StreamingLogResponseGenerator(response.func,
                                                                        response.logs,
                                                                        response.args,
-                                                                       response.kwargs)
+                                                                       response.kwargs,
+                                                                       response.callback)
         return response
