@@ -88,6 +88,7 @@ TEMPLATE_CONTEXT_PROCESSORS = (
     "django.core.context_processors.request",
     "django.core.context_processors.tz",
     "django.contrib.messages.context_processors.messages",
+    "wtl.wtlib.context_processors.languages",
 )
 
 # List of callables that know how to import templates from various sources.
@@ -167,17 +168,6 @@ LOGGING = {
         },
     }
 }
-
-TEMPLATE_CONTEXT_PROCESSORS = [
-    "django.contrib.auth.context_processors.auth",
-    "django.core.context_processors.debug",
-    "django.core.context_processors.i18n",
-    "django.core.context_processors.media",
-    "django.core.context_processors.static",
-    "django.core.context_processors.tz",
-    "django.contrib.messages.context_processors.messages",
-    "wtl.wtlib.context_processors.languages",
-]
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
