@@ -24,11 +24,6 @@ class HomeTestCase(TestCase):
         self.assertFormError(response, 'analyze_form', 'git_url',
                              'This field is required.')
 
-    def test_repo_not_exists(self):
-        response = self.client.post('/', {'git_url': 'foo'})
-        self.assertFormError(response, 'analyze_form', 'git_url',
-                             'Repository not found.')
-
     def test_active_menu(self):
         response = self.client.get('/')
         self.assertNotIn('active_menu', response.context)
