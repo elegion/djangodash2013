@@ -1,4 +1,5 @@
 from __future__ import unicode_literals
+import logging
 import sys
 if sys.version_info >= (3,):
     import urllib.request as urllib2
@@ -13,6 +14,9 @@ from pkgtools.pypi import PyPIJson
 import requirements
 
 from wtl.wtparser.parsers.base import BaseParser
+
+
+logger = logging.getLogger(__name__)
 
 
 class RequirementsParser(BaseParser):
@@ -49,12 +53,14 @@ class RequirementsParser(BaseParser):
         except Library.DoesNotExist:
             pass
 
+        logger.debug('Retrieving packge info from pypi: %s', package_name)
         def _request(url, timeout=None):
             r = urllib2.Request(url)
             return urllib2.urlopen(r, timeout=timeout).read().decode('utf-8')
         try:
             # TODO: get rid of fast=true (need to normalize package name)
             json = PyPIJson(package_name, fast=True).retrieve(_request)
+            logger.debug('Retrieved data from pypi, saving to database...')
         except urllib2.HTTPError:
             return None
         library = Library.objects.create(language=self.language_instance,
