@@ -3,7 +3,7 @@
   {% for lang in top_languages %}
     <section class="col-md-4">
       <div class="well well-sm" style="border-color: {{ lang.color }}">
-        <h4>{{ lang.name }}</h4>
+        <h4><a href="{{ lang.get_absolute_url }}">{{ lang.name }}</a></h4>
         <ul class="list-unstyled libraries-list">
           {% for lib in lang.top_libraries %}
             <li>
