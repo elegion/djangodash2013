@@ -3,7 +3,8 @@ from __future__ import unicode_literals
 from django.test import TestCase
 
 from wtl.wtlib.forms import AnalyzeForm
-from wtl.wtlib.tests.factories import LibraryFactory, ProjectFactory
+from wtl.wtlib.tests.factories import (LanguageFactory, LibraryFactory,
+                                       ProjectFactory)
 
 
 class HomeTestCase(TestCase):
@@ -34,6 +35,19 @@ class LibrariesListTestCase(TestCase):
         response = self.client.get('/libraries/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/libraries_list.html')
+
+    def test_language_filter(self):
+        lang1 = LanguageFactory()
+        lang2 = LanguageFactory()
+        lib1 = LibraryFactory(language=lang1)
+        lib2 = LibraryFactory(language=lang2)
+
+        response = self.client.get('/libraries/')
+        self.assertEqual(list(response.context['libraries']), [lib2, lib1])
+        response = self.client.get('/libraries/{0}/'.format(lang1.slug))
+        self.assertEqual(list(response.context['libraries']), [lib1])
+        response = self.client.get('/libraries/{0}/'.format(lang2.slug))
+        self.assertEqual(list(response.context['libraries']), [lib2])
 
 
 class LibraryTestCase(TestCase):
