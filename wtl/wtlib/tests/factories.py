@@ -25,3 +25,4 @@ class LibraryVersionFactory(factory.DjangoModelFactory):
 
 class ProjectFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.Project
+    name = factory.Sequence(lambda n: 'project {0}'.format(n))
