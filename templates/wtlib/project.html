@@ -19,7 +19,7 @@
         <dt>{% trans 'Description' %}</dt>
         <dd>{{ project.github.description }}</dd>
         <dt>{% trans 'Stars' %}</dt>
-        <dd><a href="https://github.com/{{ project.github.owner }}/{{ project.github.name }}/stargazers">{{ project.github.starsCount }}</a></dd>
+        <dd><span class="glyphicon glyphicon-star"><a href="https://github.com/{{ project.github.owner }}/{{ project.github.name }}/stargazers">{{ project.github.starsCount }}</a></dd>
       </dl>
     </section>
   {% endif %}
