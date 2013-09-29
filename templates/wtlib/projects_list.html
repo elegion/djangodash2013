@@ -1,6 +1,13 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}
+  {% if not mixed_languages %}{{ language.name }}{% endif %}
+  {% trans 'Projects' %}
+  ∙
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
   <h1 class="page-header">
     {% if not mixed_languages %}<span style="color: {{ language.color }}">{{ language.name }}</span>{% endif %}
