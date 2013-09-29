@@ -1,4 +1,6 @@
 from __future__ import absolute_import
+import logging
+import string
 
 import github
 import github.PaginatedList
@@ -7,7 +9,13 @@ import github.MainClass
 import github.Requester
 
 
+logger = logging.getLogger(__name__)
+
+
 class SearchPaginatedList(github.PaginatedList.PaginatedList, object):
+    def _lowerCaseHeadersKeys(self, headers):
+        return {k.lower():v for k,v in headers.items()}
+
     def _fetchNextPage(self):
         headers, data = self._PaginatedList__requester.requestJsonAndCheck(
             "GET",
@@ -15,6 +23,7 @@ class SearchPaginatedList(github.PaginatedList.PaginatedList, object):
             parameters=self._PaginatedList__nextParams
         )
         data = data.get('items', [])
+        headers = self._lowerCaseHeadersKeys(headers)
         self._PaginatedList__nextUrl = None
         if len(data) > 0:
             links = self._PaginatedList__parseLinkHeader(headers)
@@ -36,6 +45,7 @@ class SearchPaginatedList(github.PaginatedList.PaginatedList, object):
 
 class WtPreviewRequester(github.Requester.Requester, object):
     def _Requester__requestRaw(self, cnx, verb, url, requestHeaders, input):
+        logger.info('Sending github api request: %s', url)
         if not requestHeaders:
             requestHeaders = {}
         requestHeaders['Accept'] = 'application/vnd.github.preview'
