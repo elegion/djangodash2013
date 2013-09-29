@@ -111,7 +111,7 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
 class ParseRequirementsTestCase(BaseTestCase):
     def test_returns_parsed_requirements(self):
         parser = mock.Mock()
-        parser.parse.return_value = {'language': 'Python'}
+        parser.parse.return_value = {'language': self.language}
         self.githubWillRespondWith('get_git_blog/requrements.txt.json')
         res = self.worker._parse_requirements(self.gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', parser)
         self.assertIsInstance(res, dict)
@@ -129,7 +129,7 @@ class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
     def sampleDict(self):
         return {
             'platform': None,
-            'language': 'Python',
+            'language': self.language.name,
             'packages': [
                 {'name': 'django', 'version': '1.5.4', 'version_special': ''},
                 {'name': 'south', 'version': '0.8.2', 'version_special': ''},
@@ -173,7 +173,7 @@ class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
         lib2 = LibraryFactory(name='south', language=self.language)
         LibraryVersionFactory(library=lib1, version='1.5.4')
         LibraryVersionFactory(library=lib2, version='0.8.2')
-        with self.assertDoesNotChange(Library.objects.count):
+        with self.assertDoesNotChange(Library.objects.count,):
             with self.assertDoesNotChange(LibraryVersion.objects.count):
                 self.worker._save_parsed_requirements(project, self.sampleDict())
         self.assertEqual(2, project.libraries.count())
