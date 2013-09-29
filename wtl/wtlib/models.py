@@ -23,13 +23,24 @@ class Language(models.Model):
                                null=False, blank=True, default='')
     color = models.CharField(_('color'), max_length=32, null=False, blank=True,
                              default="#ffffff")
+    total_users = models.BigIntegerField(_('total number of users'),
+                                         null=False, blank=True, default=0,
+                                         editable=False, db_index=True)
 
     class Meta():
+        ordering = ('-total_users',)
         verbose_name = _('language')
         verbose_name_plural = _('languages')
 
     def __str__(self):
         return self.name
+
+    @classmethod
+    def update_totals(cls):
+        languages = cls.objects.annotate(count=models.Count('library'))
+        for l in languages:
+            l.total_users = l.count or 0
+            l.save(update_fields=['total_users'])
 
 
 @python_2_unicode_compatible
@@ -75,8 +86,9 @@ class Library(models.Model):
             .filter(id__in=project.libraries.all) \
             .annotate(count=models.Sum('versions__total_users'))
         for l in libs:
-            l.total_users = l.count
+            l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
+        Language.update_totals()
 
     def get_absolute_url(self):
         return reverse('wtlib_library', args=[self.slug])
@@ -116,7 +128,7 @@ class LibraryVersion(models.Model):
             .filter(id__in=project.libraries.all) \
             .annotate(count=models.Count('projects'))
         for v in versions:
-            v.total_users = v.count
+            v.total_users = v.count or 0
             v.save(update_fields=['total_users'])
         Library.update_totals_by_project(project)
 
