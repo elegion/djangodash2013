@@ -23,6 +23,8 @@ south>=0.8.2
 gondor
 gunicorn>=18.0,<19
 -e git+git://github.com/user/package#egg=package
+# This one will be skipped, because no name in URL.
+hg+https://bitbucket.org/vstoykov/django-admin-tools@77cfa30
 """
 
 class BaseTestCase(TestCase):
