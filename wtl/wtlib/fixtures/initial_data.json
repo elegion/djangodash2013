@@ -6,7 +6,7 @@
       "name": "Python",
       "slug": "python",
       "url_home": "http://www.python.org/",
-      "color": "#00ff00"
+      "color": "#64962a"
     }
   },
   {
@@ -16,7 +16,7 @@
       "name": "Ruby",
       "slug": "ruby",
       "url_home": "https://www.ruby-lang.org/",
-      "color": "#ff0000"
+      "color": "#962a64"
     }
   },
   {
@@ -26,7 +26,7 @@
       "name": "Objective-C",
       "slug": "objective-c",
       "url_home": "",
-      "color": "#0000ff"
+      "color": "#1d5489"
     }
   }
 ]
