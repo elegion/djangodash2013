@@ -1,3 +1,5 @@
+from __future__ import absolute_import
+
 import github
 import github.PaginatedList
 import github.Repository
@@ -5,7 +7,7 @@ import github.MainClass
 import github.Requester
 
 
-class SearchPaginatedList(github.PaginatedList.PaginatedList):
+class SearchPaginatedList(github.PaginatedList.PaginatedList, object):
     def _fetchNextPage(self):
         headers, data = self._PaginatedList__requester.requestJsonAndCheck(
             "GET",
@@ -32,7 +34,7 @@ class SearchPaginatedList(github.PaginatedList.PaginatedList):
         return content
 
 
-class WtPreviewRequester(github.Requester.Requester):
+class WtPreviewRequester(github.Requester.Requester, object):
     def _Requester__requestRaw(self, cnx, verb, url, requestHeaders, input):
         if not requestHeaders:
             requestHeaders = {}
@@ -62,7 +64,6 @@ class WtGithub(github.Github):
         :param language: string
         :rtype: :class:`github.PaginatedList.PaginatedList` of :class:`github.Repository.Repository`
         """
-        assert isinstance(q, str), q
         url_parameters = {'q': q}
         if sort:
             url_parameters['sort'] = sort
