@@ -193,3 +193,5 @@ class GithubBulkWorker(BaseGithubWorker):
                 logger.error('Error analysing repository: %s', e.__repr__())
             else:
                 logger.debug('Analysed repository successfully. %i to go...', count-analyzed_repos)
+            if analyzed_repos >= count:
+                break
