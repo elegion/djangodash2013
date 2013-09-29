@@ -3,9 +3,20 @@
 
 {% block content %}
   <h1 class="page-header">{% trans 'Libraries' %}</h1>
-  <ul>
-  {% for lib in libraries %}
-    <li><a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a></li>
-  {% endfor %}
-  </ul>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{% trans 'Name' %}</th>
+        <th>{% trans 'Popularity' %}</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% for lib in libraries %}
+        <tr>
+          <td><a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a></td>
+          <td>{{ lib.total_users }}</td>
+        </tr>
+      {% endfor %}
+    </tbody>
+  </table>
 {% endblock %}
