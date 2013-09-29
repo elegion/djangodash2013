@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}
+  {{ library.name }}
+  ∙
+  {% trans 'Libraries' %}
+  ∙
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
   <h1 class="page-header">{{ library.name }} <small title="{% trans 'Total users' %}">({{ library.total_users }})</small></h1>
   {% if library.url_home or library.url_docs or library.url_repo %}
