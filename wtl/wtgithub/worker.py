@@ -7,7 +7,7 @@ from wtl.wtlib.models import Project, Library, LibraryVersion, Language
 from wtl.wtparser.parser import get_parser_for_filename
 
 
-class WorkerError(BaseException):
+class WorkerError(Exception):
     """
     Base class for all worker exceptions.
     """
@@ -153,4 +153,8 @@ class GithubBulkWorker(BaseGithubWorker):
             if self._check_repository_analyzed(rep):
                 continue
             analyzed_repos += 1
-            self.github_worker.analyze_repo(rep=rep)
+            try:
+                self.github_worker.analyze_repo(rep=rep)
+            except BaseException as e:
+                # TODO: log exceptions
+                pass
