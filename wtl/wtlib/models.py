@@ -44,6 +44,8 @@ class Library(models.Model):
                             null=False, blank=False)
     # TODO: use autoslug field
     slug = models.SlugField(_('slug'), null=False, blank=False)
+    short_description = models.TextField()
+    license = models.CharField(max_length=32)
     url_home = models.URLField(_('homepage URL'), max_length=1024,
                                null=False, blank=True, default='')
     url_docs = models.URLField(_('documentation URL'), max_length=1024,

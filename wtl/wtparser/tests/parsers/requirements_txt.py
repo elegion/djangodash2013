@@ -91,3 +91,5 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         library = Library.objects.get(name='django')
         self.assertEqual('http://www.djangoproject.com/', library.url_home)
         self.assertEqual('', library.url_docs)
+        self.assertEqual('A high-level Python Web framework that encourages rapid development and clean, pragmatic design.', library.short_description)
+        self.assertEqual('BSD', library.license)

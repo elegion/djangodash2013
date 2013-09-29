@@ -50,6 +50,8 @@ class RequirementsParser(BaseParser):
         library = Library.objects.create(language=self.language_instance,
                                          name=library_name,
                                          slug=slugify(json['info']['name']),
+                                         short_description=json['info']['summary'],
+                                         license=json['info']['license'],
                                          url_home=json['info']['home_page'],
                                          url_docs=json['info']['docs_url'],
                                          url_repo='')
