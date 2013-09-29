@@ -21,12 +21,12 @@ class Language(models.Model):
     color = models.CharField(_('color'), max_length=32, null=False, blank=True,
                              default="#ffffff")
 
-    def __str__(self):
-        return self.name
-
     class Meta():
         verbose_name = _('language')
         verbose_name_plural = _('languages')
+
+    def __str__(self):
+        return self.name
 
 
 @python_2_unicode_compatible
@@ -79,13 +79,13 @@ class LibraryVersion(models.Model):
                                          null=False, blank=True, default=0,
                                          editable=False)
 
-    def __str__(self):
-        return '%s %s' % (self.library.name, self.version)
-
     class Meta():
         ordering = ('-release_date',)
         verbose_name = _('library version')
         verbose_name_plural = _('library versions')
+
+    def __str__(self):
+        return '%s %s' % (self.library.name, self.version)
 
 
 @python_2_unicode_compatible
