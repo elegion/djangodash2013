@@ -1,0 +1,18 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="page-header">{{ library.name }}</h1>
+  {% if library.short_description %}
+    <h2>{% trans 'Description' %}</h2>
+    <article class="library-short-description">
+      {{ library.short_description }}
+    </article>
+  {% endif %}
+  {% if library.license %}
+    <h2>{% trans 'License' %}</h2>
+    <article class="library-license">
+      {{ library.license }}
+    </article>
+  {% endif %}
+{% endblock %}
