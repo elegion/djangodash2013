@@ -5,6 +5,7 @@ import time
 from django.templatetags.static import static
 
 from wtl.streaming_log_response.response import StreamingLogHttpResponse
+from wtl.streaming_log_response.thread import ThreadWithReturnValue
 
 
 HTML_HEADER = """<!doctype html>
@@ -44,7 +45,7 @@ class StreamingLogResponseGenerator(object):
             args = []
         if kwargs is None:
             kwargs = {}
-        self.thread = threading.Thread(target=func, args=args, kwargs=kwargs)
+        self.thread = ThreadWithReturnValue(target=func, args=args, kwargs=kwargs)
         self.thread.start()
 
     def setup_logging(self, logs):
