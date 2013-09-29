@@ -39,7 +39,7 @@ class RequirementsParser(BaseParser):
 
     def get_packages(self, lines):
         reqs = requirements.parse('\n'.join(lines))
-        return [self._get_req(r) for r in reqs if not r.local_file]
+        return [self._get_req(r) for r in reqs if not r.local_file and r.name]
 
     def _get_package_info(self, package_name):
         library_name = package_name.lower()
