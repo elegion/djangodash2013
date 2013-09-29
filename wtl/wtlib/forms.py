@@ -21,6 +21,8 @@ class AnalyzeForm(forms.Form):
             self._add_error('git_url', _('Cant find requirements file..'))
         except ParseError:
             self._add_error('git_url', _('Failed to parse your repo.'))
+        except:
+            self._add_error('git_url', _('Unknown error while parsing your repo.'))
 
     def _add_error(self, field, error):
         if field not in self._errors:
