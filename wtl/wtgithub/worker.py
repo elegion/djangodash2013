@@ -178,20 +178,26 @@ class GithubBulkWorker(BaseGithubWorker):
                                       github__owner=rep.owner._identity).count() != 0
 
     def analyze_repos(self, language, count=100):
-        logger.info('Start analyzing repositories for language: %s', language)
+        logger.debug('Start crawling repositories for language: %s', language)
         repositories = self._get_repositories(language)
+        checked_repos = 0
+        new_repos = 0
         analyzed_repos = 0
         for rep in repositories:
+            checked_repos += 1
             logger.debug('Will analyze repository: %s', rep.full_name)
             if self._check_repository_analyzed(rep):
                 logger.debug('Already analysed, skipping...')
                 continue
-            analyzed_repos += 1
+            new_repos += 1
             try:
                 self.github_worker.analyze_repo(rep=rep)
+                analyzed_repos += 1
             except BaseException as e:
                 logger.error('Error analysing repository: %s', e.__repr__())
             else:
-                logger.debug('Analysed repository successfully. %i to go...', count-analyzed_repos)
-            if analyzed_repos >= count:
+                logger.debug('Analysed repository successfully. %i to go...', count-new_repos)
+            if new_repos >= count:
                 break
+        logger.debug('Finished crawling.')
+        return checked_repos, new_repos, analyzed_repos
