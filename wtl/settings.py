@@ -98,6 +98,7 @@ MIDDLEWARE_CLASSES = (
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    'wtl.streaming_log_response.middleware.StreamingLogResponseMiddleware',
 )
 
 ROOT_URLCONF = 'wtl.urls'
