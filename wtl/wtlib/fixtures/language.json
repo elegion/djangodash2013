@@ -1,0 +1,32 @@
+[
+  {
+    "model": "wtlib.language",
+    "pk": 1,
+    "fields": {
+      "name": "Python",
+      "slug": "python",
+      "url_home": "http://www.python.org/",
+      "color": "#00ff00"
+    }
+  },
+  {
+    "model": "wtlib.language",
+    "pk": 2,
+    "fields": {
+      "name": "Ruby",
+      "slug": "ruby",
+      "url_home": "https://www.ruby-lang.org/",
+      "color": "#ff0000"
+    }
+  },
+  {
+    "model": "wtlib.language",
+    "pk": 3,
+    "fields": {
+      "name": "Objective-C",
+      "slug": "objective-c",
+      "url_home": "",
+      "color": "#0000ff"
+    }
+  }
+]
