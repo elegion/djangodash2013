@@ -4,7 +4,7 @@ south==0.8.2
 django-autoslug==1.7.1
 #django-admin-tools==0.5.1 # No python3 support yet
 hg+https://bitbucket.org/vstoykov/django-admin-tools@77cfa30
-django-extensions  
+django-extensions==1.2.2
 
 # Gondor
 gondor==1.2.4
