@@ -41,8 +41,8 @@ def library(request, language_slug, library_slug):
 def projects_list(request, language_slug):
     projects = Project.objects.all()
     if language_slug:
-        projects = projects.distinct() \
-            .filter(libraries__library__language__slug=language_slug)
+        projects = projects.filter(pk__in=Project.objects.filter(
+            libraries__library__language__slug=language_slug))
     return render(request, 'wtlib/projects_list.html',
                   {'projects': projects,
                    'active_menu': 'projects',
