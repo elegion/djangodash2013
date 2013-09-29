@@ -16,5 +16,10 @@ class LibraryAdmin(admin.ModelAdmin):
     prepopulated_fields = {'slug': ('name',)}
 
 
+class ProjectAdmin(admin.ModelAdmin):
+    pass
+
+
 admin.site.register(wtlib.Language, LanguageAdmin)
 admin.site.register(wtlib.Library, LibraryAdmin)
+admin.site.register(wtlib.Project, ProjectAdmin)
