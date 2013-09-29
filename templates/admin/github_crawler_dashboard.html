@@ -8,7 +8,7 @@
         and analyzes their requirements, so library usage statistics should populate automatically. Press one
         of the buttons below to launch crawler.
       </p>
-      <form method="post" style="text-align: center;">
+      <form action="{% url 'wtgithub_admin_crawl' %}" method="post" style="text-align: center;">
         {% csrf_token %}
         <input type="submit" name="language" value="Python" style="font-size: 200%; margin: 0 40px 40px;" />
         <input type="submit" name="language" value="Ruby" style="font-size: 200%; margin: 0 40px 40px;" />
