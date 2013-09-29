@@ -14,10 +14,26 @@
     {% trans 'Projects' %}
   </h1>
   <ul>
+  <table class="table table-striped">
+    <thead>
+      <tr>
+        <th>{% trans 'Name' %}</th>
+        <th>{% trans 'Repository' %}</th>
+        <th>{% trans 'Github stars' %}</th>
+        {% if mixed_languages %}<th>{% trans 'Language' %}</th>{% endif %}
+      </tr>
+    </thead>
+    <tbody>
   {% for p in projects %}
-    <li><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></li>
+    <tr>
+      <td><a href="{{ p.get_absolute_url }}">{{ p.name }}</a></td>
+      <td><small><a href="{{ p.github.url }}">{{ p.github.full_name }}</a></small></td>
+      <td>{{ p.github.starsCount }}</td>
+      {% if mixed_languages %}<td>{{ lib.language.name }}</td>{% endif %}
+    </tr>
   {% endfor %}
-  </ul>
+    </tbody>
+  </table>
 
   {% include 'shared/pagination.html' with items=projects only %}
 {% endblock %}

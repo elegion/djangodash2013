@@ -19,3 +19,9 @@ class Repository(models.Model):
 
     def __str__(self):
         return '{0}/{1}'.format(self.owner, self.name)
+
+    def url(self):
+        return 'https://github.com/%s' % self.full_name()
+
+    def full_name(self):
+        return '%s/%s' % (self.owner, self.name)

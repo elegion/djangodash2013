@@ -63,7 +63,7 @@ def library(request, language_slug, library_slug):
 
 
 def projects_list(request, language_slug):
-    projects = Project.objects.all()
+    projects = Project.objects.order_by('name')
     language = None
     if language_slug:
         language = get_object_or_404(Language, slug=language_slug)
