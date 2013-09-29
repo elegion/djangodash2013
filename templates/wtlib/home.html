@@ -1,6 +1,38 @@
 {% extends 'base.html' %}
+{% load i18n %}
+
+{% block jumbotron %}
+  <div class="jumbotron">
+    <div class="container">
+      <h1>What the Library?</h1>
+      {% blocktrans %}
+        <p>
+          Our goal is to answer your question on what library to pick.
+        </p>
+        <p>
+          To make this possible, we collect data about packages used in open
+          source projects written in different languages by analysing appropriate
+          files, like <code>requirements.txt</code>, <code>Gemfile</code>,
+          <code>Podfile</code>.
+        </p>
+      {% endblocktrans %}
+      <form class="form-inline" title="TODO">
+        <div class="form-group">
+          <div class="input-group input-group-lg">
+            <input name="q" type="search" class="form-control input-lg" placeholder="http networking" disabled="disabled">
+            <span class="input-group-btn">
+              <button type="submit" class="btn btn-primary btn-lg" disabled="disabled">
+                {% trans 'Find a library' %}
+              </button>
+            </span>
+          </div>
+        </div>
+      </form>
+    </div>
+  </div>
+{% endblock %}
 
 {% block content %}
-  {% include 'wtlib/_top_libs.html' %}
   {% include 'wtlib/_repo_form.html' %}
+  {% include 'wtlib/_top_libs.html' %}
 {% endblock %}
