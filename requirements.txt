@@ -17,4 +17,5 @@ mock==1.0.1
 
 # Misc
 requirements-parser==0.0.6
+pkgtools==0.7.2
 PyGithub==1.19.0

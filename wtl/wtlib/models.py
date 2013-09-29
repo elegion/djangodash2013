@@ -42,6 +42,7 @@ class Library(models.Model):
                                  null=False, blank=False)
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
+    # TODO: use autoslug field
     slug = models.SlugField(_('slug'), null=False, blank=False)
     url_home = models.URLField(_('homepage URL'), max_length=1024,
                                null=False, blank=True, default='')
