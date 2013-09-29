@@ -94,7 +94,7 @@ class Library(models.Model):
         # limited in their abilities.
         q = cls.objects.all()
         if project is not None:
-            q = q.filter(id__in=project.libraries.all)
+            q = q.filter(id__in=project.libraries.values_list('library_id', flat=True))
         for l in q.annotate(count=models.Sum('versions__total_users')):
             l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
