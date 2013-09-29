@@ -16,6 +16,6 @@ def home(request):
     return render(request, 'wtlib/home.html', {'analyze_form': form})
 
 
-def project(request, project_id):
-    project = get_object_or_404(Project, pk=project_id)
+def project(request, project_slug):
+    project = get_object_or_404(Project, slug=project_slug)
     return render(request, 'wtlib/project.html', {'project': project})
