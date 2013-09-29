@@ -27,7 +27,8 @@ def home(request):
             return StreamingHttpResponse(streaming_content)
     else:
         form = AnalyzeForm()
-    top_languages = Language.objects.filter(total_users__gt=0)[:3]
+    # Just output all languages, for now
+    top_languages = Language.objects.order_by('pk')
     return render(request, 'wtlib/home.html',
                   {'analyze_form': form,
                    'top_languages': top_languages})
