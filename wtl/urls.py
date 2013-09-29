@@ -6,6 +6,7 @@ admin.autodiscover()
 
 urlpatterns = patterns(
     '',
+    url(r'^admin_tools/', include('admin_tools.urls')),
     url(r'^', include('wtl.wtlib.urls')),
     url(r'^admin/', include(admin.site.urls)),
 )
