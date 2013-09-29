@@ -16,7 +16,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'wtlib_libraries_list' %}">{% trans 'Libraries' %} <b class="caret"></b></a>
             <ul class="dropdown-menu">
             {% for lang in languages %}
-              <li{% if active_language == lang.slug %} class="active"{% endif %}>
+              <li{% if active_menu == 'libraries' and active_language == lang.slug %} class="active"{% endif %}>
                 <a href="{{ lang.get_absolute_url }}" style="color: {{ lang.color }}">{{ lang.name }}</a>
               </li>
             {% endfor %}
@@ -26,7 +26,7 @@
             <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'wtlib_projects_list' %}">{% trans 'Projects' %} <b class="caret"></b></a>
             <ul class="dropdown-menu">
             {% for lang in languages %}
-              <li{% if active_language == lang.slug %} class="active"{% endif %}>
+              <li{% if active_menu == 'projects' and active_language == lang.slug %} class="active"{% endif %}>
                 <a href="{% url 'wtlib_projects_list' language_slug=lang.slug %}" style="color: {{ lang.color }}">{{ lang.name }}</a>
               </li>
             {% endfor %}
