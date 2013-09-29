@@ -54,7 +54,7 @@ class Library(models.Model):
                                  null=False, blank=False)
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
-    slug = AutoSlugField(populate_from='name', unique=True)
+    slug = AutoSlugField(populate_from='name', unique_with=['language'])
     short_description = models.TextField()
     license = models.TextField()
     url_home = models.URLField(_('homepage URL'), max_length=1024,
@@ -91,7 +91,7 @@ class Library(models.Model):
         Language.update_totals()
 
     def get_absolute_url(self):
-        return reverse('wtlib_library', args=[self.slug])
+        return reverse('wtlib_library', args=[self.language.slug, self.slug])
 
 
 @python_2_unicode_compatible

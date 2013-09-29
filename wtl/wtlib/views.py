@@ -16,12 +16,14 @@ def home(request):
     return render(request, 'wtlib/home.html', {'analyze_form': form})
 
 
-def libraries_list(request):
+def libraries_list(request, language_slug):
     libs = Library.objects.all()
+    if language_slug:
+        libs = libs.filter(language__slug=language_slug)
     return render(request, 'wtlib/libraries_list.html', {'libraries': libs})
 
 
-def library(request, library_slug):
+def library(request, language_slug, library_slug):
     lib = get_object_or_404(Library, slug=library_slug)
     return render(request, 'wtlib/library.html', {'library': lib})
 
