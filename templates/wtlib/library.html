@@ -13,6 +13,7 @@
   <h1 class="page-header">{{ library.name }} <small title="{% trans 'Total users' %}">({{ library.total_users }})</small></h1>
   {% if library.url_home or library.url_docs or library.url_repo %}
     <ul class="list-inline library-links-list">
+      <li><span class="glyphicon glyphicon-globe"></span></li>
       {% if library.url_home %}
         <li><a href="{{ library.url_home }}">{% trans 'Homepage' %}</a></li>
       {% endif %}
