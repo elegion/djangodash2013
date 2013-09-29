@@ -4,9 +4,11 @@
   <h1 class="page-header">{{ project.name }}</h1>
   <h2>Dependencies</h2>
   <dl>
-  {% for lib in project.libraries.all %}
-    <dt>{{ lib.library.name }}</dt>
-    <dd>{{ lib.version|default_if_none:lib.version_special }} ( {{ lib.library.short_description }} )</dd>
-  {% endfor %}
+    {% for lib in project.libraries.all %}
+      <dt>
+        <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
+      </dt>
+      <dd>{{ lib.version|default_if_none:lib.version_special }} ( {{ lib.library.short_description }} )</dd>
+    {% endfor %}
   </dl>
 {% endblock %}
