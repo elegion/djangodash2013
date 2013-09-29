@@ -9,7 +9,7 @@ from wtl.streaming_log_response.thread import ThreadWithReturnValue
 
 HTML_HEADER = """<!doctype html>
 <html>
-<head><meta charset="utf-8" /><link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" /><link rel="stylesheet" href="%(css_url)s" /></head>
+<head><meta charset="utf-8" /><link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootswatch/3.0.0/spacelab/bootstrap.min.css" /><link rel="stylesheet" href="%(css_url)s" /></head>
 <body><div class="container logs-page"><h1 class="page-header">Long operation in progress...</h1>
 <h2>Streaming response:</h2>
 """
