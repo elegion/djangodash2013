@@ -34,6 +34,7 @@ def library(request, language_slug, library_slug):
     lib = get_object_or_404(Library, slug=library_slug)
     return render(request, 'wtlib/library.html',
                   {'library': lib,
+                   'active_menu': 'libraries',
                    'active_language': language_slug})
 
 
