@@ -1,7 +1,7 @@
 import base64
 from django.conf import settings
-from wtl.wtgithub.github import Github
 
+from wtl.wtgithub.github import WtGithub
 from wtl.wtgithub.models import Repository
 from wtl.wtlib.models import Project, Library, LibraryVersion, Language
 from wtl.wtparser.parser import get_parser_for_filename
@@ -31,9 +31,9 @@ class BaseGithubWorker(object):
     def __init__(self, github=None):
         super(BaseGithubWorker, self).__init__()
         if github is None:
-            github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
-                            getattr(settings, 'WTGITHUB_PASSWORD', None),
-                            per_page=getattr(settings, 'WTGITHUB_PER_PAGE', 30))
+            github = WtGithub(getattr(settings, 'WTGITHUB_USERNAME', None),
+                              getattr(settings, 'WTGITHUB_PASSWORD', None),
+                              per_page=getattr(settings, 'WTGITHUB_PER_PAGE', 30))
         self.github = github
 
 
