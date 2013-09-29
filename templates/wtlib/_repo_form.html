@@ -1,11 +1,13 @@
 {% load i18n %}
 <form class="form-vertical form-repo" method="post" action="">
-  <div class="form-group">
+  {% csrf_token %}
+  <div class="form-group{% if analyze_form.git_url.errors %} has-error{% endif %}">
     <div class="input-group">
       <span class="input-group-addon">github.com/</span>
-      <input type="text" class="form-control" placeholder="user/repository">
+      <input name="git_url" type="text" class="form-control" placeholder="user/repository" value="{{ analyze_form.git_url.value|default_if_none:"" }}">
       <span class="input-group-addon">.git</span>
     </div>
+    {% if analyze_form.git_url.errors %}<span class="help-block">{{ analyze_form.git_url.errors.0 }}</span>{% endif %}
   </div>
   <button class="btn btn-primary btn-block" type="submit">
     {% trans 'Scan my Repository' %}
