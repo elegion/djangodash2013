@@ -67,6 +67,17 @@ class Library(models.Model):
     def __str__(self):
         return self.name
 
+    @classmethod
+    def update_totals_by_project(cls, project):
+        # Not the best solution, but both my brain right now and Django ORM are
+        # limited in their abilities.
+        libs = cls.objects \
+            .filter(id__in=project.libraries.all) \
+            .annotate(count=models.Sum('versions__total_users'))
+        for l in libs:
+            l.total_users = l.count
+            l.save(update_fields=['total_users'])
+
 
 @python_2_unicode_compatible
 class LibraryVersion(models.Model):
@@ -93,6 +104,18 @@ class LibraryVersion(models.Model):
 
     def __str__(self):
         return '{0} {1}'.format(self.library.name, self.version)
+
+    @classmethod
+    def update_totals_by_project(cls, project):
+        # Not the best solution, but both my brain right now and Django ORM are
+        # limited in their abilities.
+        versions = cls.objects \
+            .filter(id__in=project.libraries.all) \
+            .annotate(count=models.Count('projects'))
+        for v in versions:
+            v.total_users = v.count
+            v.save(update_fields=['total_users'])
+        Library.update_totals_by_project(project)
 
 
 @python_2_unicode_compatible

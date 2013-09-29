@@ -32,8 +32,8 @@ class GithubWorker(object):
         super(GithubWorker, self).__init__()
         if github is None:
             github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
-                                 getattr(settings, 'WTGITHUB_PASSWORD', None))
-            self.github = github
+                            getattr(settings, 'WTGITHUB_PASSWORD', None))
+        self.github = github
 
     def _get_repo(self, full_name):
         """
@@ -107,9 +107,11 @@ class GithubWorker(object):
             version, _ = LibraryVersion.objects.get_or_create(
                 library=library, version=package_dict['version'],
                 version_special=package_dict['version_special'])
-            version.total_users += 1
             version.save()
             project.libraries.add(version)
+
+    def _update_user_counts(self, project):
+        LibraryVersion.update_totals_by_project(project)
 
     def analyze_repo(self, full_name):
         rep = self._get_repo(full_name)
@@ -117,4 +119,5 @@ class GithubWorker(object):
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
         self._save_parsed_requirements(project, parsed)
+        self._update_user_counts(project)
         return repository, project
