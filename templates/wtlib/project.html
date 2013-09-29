@@ -8,7 +8,10 @@
       <dt>
         <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
       </dt>
-      <dd>{{ lib.version|default_if_none:lib.version_special }} ( {{ lib.library.short_description }} )</dd>
+      <dd>
+        {{ lib.version|default_if_none:lib.version_special }}
+        {% if lib.library.short_description %}({{ lib.library.short_description }}){% endif %}
+      </dd>
     {% endfor %}
   </dl>
 {% endblock %}
