@@ -36,11 +36,13 @@ class StreamingLogResponseGenerator(object):
     messages = []
     handlers = {}
 
-    def __init__(self, func, logs):
+    def __init__(self, func, logs, args=None, kwargs=None):
         super(StreamingLogResponseGenerator, self).__init__()
         self.messages = []
         self.setup_logging(logs)
-        self.thread = threading.Thread(target=func)
+        if kwargs is None:
+            kwargs = {}
+        self.thread = threading.Thread(target=func, args=args, kwargs=kwargs)
         self.thread.start()
 
     def setup_logging(self, logs):
@@ -77,5 +79,8 @@ class StreamingLogResponseGenerator(object):
 class StreamingLogResponseMiddleware(object):
     def process_response(self, request, response):
         if isinstance(response, StreamingLogHttpResponse):
-            response.streaming_content = StreamingLogResponseGenerator(response.func, response.logs)
+            response.streaming_content = StreamingLogResponseGenerator(response.func,
+                                                                       response.logs,
+                                                                       response.args,
+                                                                       response.kwargs)
         return response

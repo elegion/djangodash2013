@@ -1,6 +1,6 @@
 from django.contrib.auth.decorators import permission_required
-from django.http import HttpResponse
 from django.views.decorators.http import require_POST
+from wtl.streaming_log_response.response import StreamingLogHttpResponse
 
 from wtl.wtgithub.worker import GithubBulkWorker
 
@@ -9,5 +9,6 @@ from wtl.wtgithub.worker import GithubBulkWorker
 @require_POST
 def crawl(request):
     crawler = GithubBulkWorker()
-    crawler.analyze_repos(request.REQUEST.get('language'))
-    return HttpResponse('Ok!')
+    return StreamingLogHttpResponse(crawler.analyze_repos,
+                                    logs={'wtl': 'INFO'},
+                                    args=[request.REQUEST.get('language')])
