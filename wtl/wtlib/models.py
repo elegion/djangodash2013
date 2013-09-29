@@ -37,7 +37,7 @@ class Language(models.Model):
 
     @classmethod
     def update_totals(cls):
-        languages = cls.objects.annotate(count=models.Count('library'))
+        languages = cls.objects.annotate(count=models.Count('libraries'))
         for l in languages:
             l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
@@ -51,6 +51,7 @@ class Library(models.Model):
     This is what all this is about.
     """
     language = models.ForeignKey(Language, verbose_name=_('language'),
+                                 related_name='libraries',
                                  null=False, blank=False)
     name = models.CharField(_('name'), max_length=512,
                             null=False, blank=False)
