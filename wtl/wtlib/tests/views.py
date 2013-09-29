@@ -56,6 +56,22 @@ class LibrariesListTestCase(TestCase):
         response = self.client.get('/libraries/{0}/'.format(lang2.slug))
         self.assertItemsEqual(response.context['libraries'], [lib2])
 
+    def test_tag_filter(self):
+        lang = LanguageFactory()
+        lib1 = LibraryFactory(language=lang)
+        lib1.tags.add('tag1')
+        lib2 = LibraryFactory(language=lang)
+        lib2.tags.add('tag2')
+
+        response = self.client.get('/libraries/')
+        self.assertItemsEqual(response.context['libraries'], [lib1, lib2])
+        response = self.client.get('/libraries/{0}/'.format(lang.slug))
+        self.assertItemsEqual(response.context['libraries'], [lib1, lib2])
+        response = self.client.get('/libraries/{0}/tag/tag1'.format(lang.slug))
+        self.assertItemsEqual(response.context['libraries'], [lib1])
+        response = self.client.get('/libraries/{0}/tag/tag2'.format(lang.slug))
+        self.assertItemsEqual(response.context['libraries'], [lib2])
+
     def test_active_menu(self):
         lang = LanguageFactory()
         response = self.client.get('/libraries/')
