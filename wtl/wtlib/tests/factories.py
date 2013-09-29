@@ -13,7 +13,7 @@ class LanguageFactory(factory.DjangoModelFactory):
 class LibraryFactory(factory.DjangoModelFactory):
     FACTORY_FOR = models.Library
     language = factory.SubFactory(LanguageFactory)
-    name = 'mylib'
+    name = factory.Sequence(lambda n: 'mylib {0}'.format(n))
 
 
 class LibraryVersionFactory(factory.DjangoModelFactory):
