@@ -10,14 +10,17 @@ class AnalyzeForm(forms.Form):
     git_url = forms.CharField()
 
     def analyze(self):
-        if 'git_url' not in self._errors:
-            self._errors['git_url'] = ErrorList()
         worker = GithubWorker()
         try:
             self.repository, self.project = worker.analyze_repo(
                 self.cleaned_data['git_url'])
             return self.repository, self.project
         except UnknownObjectException:
-            self._errors['git_url'].append(_('Repository not found.'))
+            self._add_error('git_url', _('Repository not found.'))
         except ParseError:
-            self._errors['git_url'].append(_('Failed to parse your repo.'))
+            self._add_error('git_url', _('Failed to parse your repo.'))
+
+    def _add_error(self, field, error):
+        if field not in self._errors:
+            self._errors[field] = ErrorList()
+        self._errors[field].append(error)
