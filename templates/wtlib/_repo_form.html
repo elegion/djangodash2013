@@ -1,5 +1,5 @@
 {% load i18n %}
-<form class="form-vertical form-repo" method="post" action="">
+<form class="form-vertical" method="post" action="">
   {% csrf_token %}
   <div class="form-group{% if analyze_form.git_url.errors %} has-error{% endif %}">
     <div class="input-group">

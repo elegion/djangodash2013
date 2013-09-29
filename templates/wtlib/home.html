@@ -16,23 +16,13 @@
           <code>Podfile</code>.
         </p>
       {% endblocktrans %}
-      <form class="form-inline" title="TODO">
-        <div class="form-group">
-          <div class="input-group input-group-lg">
-            <input name="q" type="search" class="form-control input-lg" placeholder="http networking" disabled="disabled">
-            <span class="input-group-btn">
-              <button type="submit" class="btn btn-primary btn-lg" disabled="disabled">
-                {% trans 'Find a library' %}
-              </button>
-            </span>
-          </div>
-        </div>
-      </form>
+      <div class="well form-repo">
+        {% include 'wtlib/_repo_form.html' %}
+      </div>
     </div>
   </div>
 {% endblock %}
 
 {% block content %}
-  {% include 'wtlib/_repo_form.html' %}
   {% include 'wtlib/_top_libs.html' %}
 {% endblock %}

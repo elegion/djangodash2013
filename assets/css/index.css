@@ -10,6 +10,13 @@ html, body {
   padding: 0 0 30px;
 }
 
+  #wrap > .container {
+    padding: 40px 16px;
+  }
+  #wrap > .jumbotron {
+    margin: 0;
+  }
+
 #footer {
   height: 30px;
   background-color: #f5f5f5;
@@ -17,20 +24,14 @@ html, body {
   text-align: center;
 }
 
-#wrap > .container {
-  padding: 64px 16px 0;
-}
-#wrap > .jumbotron {
-  margin: 0;
-}
-
 .form-repo {
-  max-width: 400px;
-  margin: 0 auto;
+  max-width: 440px;
+  margin: 48px auto 0;
+  line-height: 1em;
 }
 
 .top-libraries {
-  margin: 3em auto;
+  margin: 0 auto;
 }
 
 /* Project page */
