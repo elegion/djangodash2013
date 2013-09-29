@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.shortcuts import render, redirect, get_object_or_404
 
 from wtl.wtlib.forms import AnalyzeForm
-from wtl.wtlib.models import Project, Library
+from wtl.wtlib.models import Language, Project, Library
 
 
 def home(request):
@@ -13,7 +13,10 @@ def home(request):
             return redirect(form.project)
     else:
         form = AnalyzeForm()
-    return render(request, 'wtlib/home.html', {'analyze_form': form})
+    top_languages = Language.objects.filter(total_users__gt=0)[:3]
+    return render(request, 'wtlib/home.html',
+                  {'analyze_form': form,
+                   'top_languages': top_languages})
 
 
 def libraries_list(request, language_slug):

@@ -1,0 +1,17 @@
+{% load i18n %}
+<section class="top-libraries row">
+  {% for lang in top_languages %}
+    <section class="col-md-4">
+      <div class="well">
+        <ul class="list-unstyled libraries-list">
+          {% for lib in lang.top_libraries %}
+            <li>
+              <a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a>
+              <small title="{% trans 'Total users' %}">({{ lib.total_users }})</small>
+            </li>
+          {% endfor %}
+        </ul>
+      </div>
+    </section>
+  {% endfor %}
+</section>

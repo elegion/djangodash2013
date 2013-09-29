@@ -42,6 +42,9 @@ class Language(models.Model):
             l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
 
+    def top_libraries(self):
+        return self.libraries.filter(total_users__gt=0)[:5]
+
 
 @python_2_unicode_compatible
 class Library(models.Model):
