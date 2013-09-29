@@ -107,6 +107,10 @@ class Library(models.Model):
         return Project.objects.filter(libraries__library=self)
 
     def often_used_with(self):
+        """
+        Returns queryset for libraries often used with this library
+        Ordered by usage count, limited to 5
+        """
         projects = self.projects
         libraries = Library.objects \
                 .filter(versions__projects__in=projects) \
