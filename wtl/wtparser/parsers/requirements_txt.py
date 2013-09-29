@@ -46,7 +46,11 @@ class RequirementsParser(BaseParser):
         def _request(url, timeout=None):
             r = urllib2.Request(url)
             return urllib2.urlopen(r, timeout=timeout).read().decode('utf-8')
-        json = PyPIJson(package_name, fast=True).retrieve(_request)
+        try:
+            # TODO: get rid of fast=true (need to normalize package name)
+            json = PyPIJson(package_name, fast=True).retrieve(_request)
+        except urllib2.HTTPError:
+            return None
         library = Library.objects.create(language=self.language_instance,
                                          name=library_name,
                                          slug=slugify(json['info']['name']),

@@ -2,6 +2,10 @@ from __future__ import unicode_literals
 import os
 import re
 import sys
+if sys.version_info >= (3,):
+    import urllib.request as urllib2
+else:
+    import urllib2
 
 from django.test import TestCase
 from exam.asserts import AssertsMixin
@@ -75,8 +79,11 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         super(GetPackageInfoTestCase, self).setUp()
 
         def urlopenMock(request, timeout):
-            path = re.sub('\/json$', '.json', request.selector).lstrip('/')
-            return open(os.path.join(os.path.dirname(__file__), 'test_responses', path), 'rb')
+            filename = re.sub('\/json$', '.json', request.selector).lstrip('/')
+            path = os.path.join(os.path.dirname(__file__), 'test_responses', filename)
+            if not os.path.exists(path):
+                raise urllib2.HTTPError(request.full_url, 404, 'not found', {}, None)
+            return open(path, 'rb')
         if sys.version_info >= (3,):
             self.urllibPatch = mock.patch('urllib.request.urlopen', urlopenMock)
         else:
@@ -95,3 +102,8 @@ class GetPackageInfoTestCase(BaseTestCase, AssertsMixin):
         self.assertEqual('', library.url_docs)
         self.assertEqual('A high-level Python Web framework that encourages rapid development and clean, pragmatic design.', library.short_description)
         self.assertEqual('BSD', library.license)
+
+    def test_returns_none_on_http_error(self):
+        with self.assertDoesNotChange(Library.objects.count):
+            res = self.parser._get_package_info('no_such_packages')
+        self.assertIsNone(res)
