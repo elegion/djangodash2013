@@ -19,6 +19,10 @@ html, body {
   padding: 64px 16px 0;
 }
 
+.top-libraries {
+  margin: 6em auto;
+}
+
 .form-repo {
   max-width: 400px;
   margin: 1em auto;
