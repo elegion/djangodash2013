@@ -1,0 +1,11 @@
+{% extends 'base.html' %}
+{% load i18n %}
+
+{% block content %}
+  <h1 class="page-header">{% trans 'Projects' %}</h1>
+  <ul>
+  {% for p in projects %}
+    <li><a href="{% url 'wtlib_project' project_slug=p.slug %}">{{ p.name }}</a></li>
+  {% endfor %}
+  </ul>
+{% endblock %}

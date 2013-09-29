@@ -25,6 +25,11 @@
                 </button>
                 <a class="navbar-brand" href="{% url 'home' %}">{% trans 'What The Library?' %}</a>
               </div>
+              <div class="navbar-collapse collapse">
+                <ul class="nav navbar-nav">
+                  <li><a href="{% url 'wtlib_projects_list' %}">{% trans 'Projects' %}</a></li>
+                </ul>
+              </div>
             </div>
           </div>
         </header>
