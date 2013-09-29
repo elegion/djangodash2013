@@ -4,6 +4,7 @@ from django.core.urlresolvers import reverse
 from autoslug import AutoSlugField
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
+from django.utils.functional import cached_property
 from django.utils.translation import ugettext_lazy as _
 from taggit.managers import TaggableManager
 
@@ -109,7 +110,7 @@ class Library(models.Model):
     def often_used_with(self):
         """
         Returns queryset for libraries often used with this library
-        Ordered by usage count, limited to 5
+        Ordered by usage count
         """
         projects = self.projects
         libraries = Library.objects \
@@ -117,7 +118,7 @@ class Library(models.Model):
                 .exclude(pk=self.pk) \
                 .annotate(usage_count=models.Count('versions__id')) \
                 .order_by('-usage_count', 'name')
-        return libraries[:5]
+        return libraries
 
     def get_absolute_url(self):
         return reverse('wtlib_library', args=[self.language.slug, self.slug])

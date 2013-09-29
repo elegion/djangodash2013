@@ -50,7 +50,7 @@
     {% if often_used_with|length %}
       <h2>This library is ofter used with:</h2>
       <ul>
-        {% for library in often_used_with %}
+        {% for library in often_used_with|slice:":5" %}
           <li><a href="{{ library.get_absolute_url }}">{{ library.name }}</a> <small title="usage count">({{ library.usage_count }})</small></li>
         {% endfor %}
       </ul>
