@@ -8,7 +8,7 @@ class RegexParserMixin(object):
 
     def _get_value(self, lines, prefix, regex):
         filtered = self._lines_startwith(lines, '{0} '.format(prefix))
-        return self._match(filtered[0], 'x', regex) if len(lines) else None
+        return self._match(filtered[0], 'x', regex) if len(filtered) else None
 
     def _lines_startwith(self, lines, init):
         return [l.strip() for l in lines if l.strip().startswith(init)]
