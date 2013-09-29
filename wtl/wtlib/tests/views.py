@@ -4,7 +4,7 @@ from django.test import TestCase
 
 from wtl.wtlib.forms import AnalyzeForm
 from wtl.wtlib.tests.factories import (LanguageFactory, LibraryFactory,
-                                       ProjectFactory)
+                                       LibraryVersionFactory, ProjectFactory)
 
 
 class HomeTestCase(TestCase):
@@ -94,21 +94,47 @@ class ProjectsListTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/projects_list.html')
 
+    def test_language_filter(self):
+        lang1 = LanguageFactory()
+        lang2 = LanguageFactory()
+        v1 = LibraryVersionFactory(library=LibraryFactory(language=lang1))
+        v2 = LibraryVersionFactory(library=LibraryFactory(language=lang2))
+        proj1 = ProjectFactory()
+        proj1.libraries.add(v1)
+        proj2 = ProjectFactory()
+        proj2.libraries.add(v2)
+
+        response = self.client.get('/projects/')
+        self.assertEqual(list(response.context['projects']), [proj1, proj2])
+        response = self.client.get('/projects/{0}/'.format(lang1.slug))
+        self.assertEqual(list(response.context['projects']), [proj1])
+        response = self.client.get('/projects/{0}/'.format(lang2.slug))
+        self.assertEqual(list(response.context['projects']), [proj2])
+
     def test_active_menu(self):
+        lang = LanguageFactory()
         response = self.client.get('/projects/')
         self.assertEqual(response.context['active_menu'], 'projects')
-        self.assertNotIn('active_language', response.context)
+        self.assertEqual(response.context['active_language'], None)
+        response = self.client.get('/projects/{0}/'.format(lang.slug))
+        self.assertEqual(response.context['active_menu'], 'projects')
+        self.assertEqual(response.context['active_language'], lang.slug)
 
 
 class ProjectTestCase(TestCase):
     def test_template(self):
         project = ProjectFactory()
-        response = self.client.get('/projects/{0}'.format(project.slug))
+        project.libraries.add(LibraryVersionFactory())
+        url = '/projects/{0}/{1}'.format(project.language_slug, project.slug)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/project.html')
 
     def test_active_menu(self):
         project = ProjectFactory()
-        response = self.client.get('/projects/{0}'.format(project.slug))
+        project.libraries.add(LibraryVersionFactory())
+        url = '/projects/{0}/{1}'.format(project.language_slug, project.slug)
+        response = self.client.get(url)
         self.assertEqual(response.context['active_menu'], 'projects')
-        self.assertNotIn('active_language', response.context)
+        self.assertEqual(response.context['active_language'],
+                         project.language_slug)
