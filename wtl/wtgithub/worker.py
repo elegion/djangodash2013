@@ -28,12 +28,14 @@ class ParseError(WorkerError):
 class BaseGithubWorker(object):
     github = None
 
-    def __init__(self, github=None):
+    def __init__(self, github=None, per_page=None):
         super(BaseGithubWorker, self).__init__()
         if github is None:
+            if per_page is None:
+                per_page = getattr(settings, 'WTGITHUB_PER_PAGE', 30)
             github = WtGithub(getattr(settings, 'WTGITHUB_USERNAME', None),
                               getattr(settings, 'WTGITHUB_PASSWORD', None),
-                              per_page=getattr(settings, 'WTGITHUB_PER_PAGE', 30))
+                              per_page=per_page)
         self.github = github
 
 
@@ -117,10 +119,35 @@ class GithubWorker(BaseGithubWorker):
     def _update_user_counts(self, project):
         LibraryVersion.update_totals_by_project(project)
 
-    def analyze_repo(self, full_name):
-        rep = self._get_repo(full_name)
+    def analyze_repo(self, full_name=None, rep=None):
+        if rep is None:
+            rep = self._get_repo(full_name)
         repository, project = self._get_or_create_repository(rep)
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
         self._save_parsed_requirements(project, parsed)
         return repository, project
+
+
+class GithubBulkWorker(BaseGithubWorker):
+    def __init__(self, github=None, per_page=None):
+        if per_page is None:
+            per_page = getattr(settings, 'WTGITHUB_SEARCH_PER_PAGE', 100)
+        super(GithubBulkWorker, self).__init__(github, per_page)
+        self.github_worker = GithubWorker(github)
+
+    def _get_repositories(self, language):
+        return self.github.search_repos('language:%s' % language)
+
+    def _check_repository_analyzed(self, rep):
+        return Project.objects.filter(github__name=rep.name,
+                                      github__owner=rep.owner._identity).count() != 0
+
+    def analyze_repos(self, language, count=10):
+        repositories = self._get_repositories(language)
+        analyzed_repos = 0
+        for rep in repositories:
+            if self._check_repository_analyzed(rep):
+                continue
+            analyzed_repos += 1
+            self.github_worker.analyze_repo(rep=rep)

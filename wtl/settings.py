@@ -158,6 +158,8 @@ TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
 WTGITHUB_USERNAME = 'wtlib'
 WTGITHUB_PASSWORD = "please don't screw our test account"
+WTGITHUB_PER_PAGE = 30
+WTGITHUB_SEARCH_PER_PAGE = 100
 
 try:
     from .settings_local import *
