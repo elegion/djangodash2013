@@ -2,7 +2,10 @@
 {% load i18n %}
 
 {% block content %}
-  <h1 class="page-header">{% trans 'Libraries' %}</h1>
+  <h1 class="page-header">
+    {% if not mixed_languages %}<span style="color: {{ language.color }}">{{ language.name }}</span>{% endif %}
+    {% trans 'Libraries' %}
+  </h1>
   <table class="table table-striped">
     <thead>
       <tr>

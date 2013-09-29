@@ -21,11 +21,14 @@ def home(request):
 
 def libraries_list(request, language_slug):
     libs = Library.objects.all()
+    language = None
     if language_slug:
+        language = get_object_or_404(Language, slug=language_slug)
         libs = libs.filter(language__slug=language_slug)
     return render(request, 'wtlib/libraries_list.html',
                   {'libraries': libs,
                    'mixed_languages': language_slug is None,
+                   'language': language,
                    'active_menu': 'libraries',
                    'active_language': language_slug})
 
