@@ -168,10 +168,14 @@ LOGGING = {
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+# wtgithub settings
 WTGITHUB_USERNAME = 'wtlib'
 WTGITHUB_PASSWORD = "please don't screw our test account"
 WTGITHUB_PER_PAGE = 30
 WTGITHUB_SEARCH_PER_PAGE = 100
+
+# django-admin-tools settings
+ADMIN_TOOLS_INDEX_DASHBOARD = 'wtl.admin_dashboard.CustomIndexDashboard'
 
 try:
     from .settings_local import *
