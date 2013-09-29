@@ -21,25 +21,30 @@ def home(request):
                    'top_languages': top_languages})
 
 
-def libraries_list(request, language_slug):
+def libraries_list(request, language_slug, tag):
     libs = Library.objects.all()
     language = None
     if language_slug:
         language = get_object_or_404(Language, slug=language_slug)
         libs = libs.filter(language__slug=language_slug)
+    if tag:
+        libs = libs.filter(tags__slug__icontains=tag)
     libs = paginate(libs, 16, request.GET.get('page'))
     return render(request, 'wtlib/libraries_list.html',
                   {'libraries': libs,
                    'mixed_languages': language_slug is None,
                    'language': language,
+                   'tag': tag,
                    'active_menu': 'libraries',
                    'active_language': language_slug})
 
 
 def library(request, language_slug, library_slug):
+    language = get_object_or_404(Language, slug=language_slug)
     lib = get_object_or_404(Library, slug=library_slug)
     return render(request, 'wtlib/library.html',
                   {'library': lib,
+                   'language': language,
                    'active_menu': 'libraries',
                    'active_language': language_slug})
 
