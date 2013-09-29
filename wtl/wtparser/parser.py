@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from . import parsers
 
 
-__all__ = ['parse']
+__all__ = ['parse', 'get_parser_for_filename']
 
 
 def parse(content, filetype=None):
