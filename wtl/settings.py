@@ -156,6 +156,9 @@ LOGGING = {
 
 TEST_RUNNER = 'django_nose.NoseTestSuiteRunner'
 
+WTGITHUB_USERNAME = 'wtlib'
+WTGITHUB_PASSWORD = "please don't screw our test account"
+
 try:
     from .settings_local import *
 except ImportError:
