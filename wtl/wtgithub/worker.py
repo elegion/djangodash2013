@@ -120,7 +120,7 @@ class GithubWorker(BaseGithubWorker):
         self._update_user_counts(project)
 
     def _update_user_counts(self, project):
-        LibraryVersion.update_totals_by_project(project)
+        LibraryVersion.update_totals(project=project)
 
     def analyze_repo(self, full_name=None, rep=None):
         if rep is None:

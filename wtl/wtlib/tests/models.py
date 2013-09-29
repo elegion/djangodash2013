@@ -29,7 +29,7 @@ class LibraryVersionTestCase(TestCase):
         p.libraries.add(l1v1)
         p.libraries.add(l1v2)
         p.libraries.add(l2v1)
-        LibraryVersion.update_totals_by_project(p)
+        LibraryVersion.update_totals(project=p)
 
         self.assertEqual(Library.objects.get(id=l1.id).total_users, 2)
         self.assertEqual(Library.objects.get(id=l2.id).total_users, 1)

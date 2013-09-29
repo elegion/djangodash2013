@@ -80,13 +80,13 @@ class Library(models.Model):
         return self.name
 
     @classmethod
-    def update_totals_by_project(cls, project):
+    def update_totals(cls, project=None):
         # Not the best solution, but both my brain right now and Django ORM are
         # limited in their abilities.
-        libs = cls.objects \
-            .filter(id__in=project.libraries.all) \
-            .annotate(count=models.Sum('versions__total_users'))
-        for l in libs:
+        q = cls.objects.all()
+        if project is not None:
+            q = q.filter(id__in=project.libraries.all)
+        for l in q.annotate(count=models.Sum('versions__total_users')):
             l.total_users = l.count or 0
             l.save(update_fields=['total_users'])
         Language.update_totals()
@@ -122,16 +122,16 @@ class LibraryVersion(models.Model):
         return '{0} {1}'.format(self.library.name, self.version)
 
     @classmethod
-    def update_totals_by_project(cls, project):
+    def update_totals(cls, project=None):
         # Not the best solution, but both my brain right now and Django ORM are
         # limited in their abilities.
-        versions = cls.objects \
-            .filter(id__in=project.libraries.all) \
-            .annotate(count=models.Count('projects'))
-        for v in versions:
+        q = cls.objects.all()
+        if project is not None:
+            q = q.filter(id__in=project.libraries.all)
+        for v in q.annotate(count=models.Count('projects')):
             v.total_users = v.count or 0
             v.save(update_fields=['total_users'])
-        Library.update_totals_by_project(project)
+        Library.update_totals(project=project)
 
 
 @python_2_unicode_compatible
