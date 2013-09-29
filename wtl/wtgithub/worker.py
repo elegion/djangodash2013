@@ -116,3 +116,4 @@ class GithubWorker(object):
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
         self._save_parsed_requirements(project, parsed)
+        return repository, project
