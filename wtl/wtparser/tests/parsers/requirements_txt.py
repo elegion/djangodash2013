@@ -14,49 +14,6 @@ gunicorn>=18.0,<19
 -e git+git://github.com/user/package#egg=package
 """
 
-GEMFILE = """
-# Example Gemfile
-source 'https://rubygems.org'
-
-ruby '2.0.0'
-
-gem 'rails', '4.0.0'
-gem 'rails-i18n', '~> 4.0.0.pre'
-gem 'mysql2'
-gem 'yajl-ruby', require: 'yajl'
-
-group :production do
-  gem 'unicorn'
-  gem 'exception_notification', github: 'smartinez87/exception_notification'
-end
-"""
-
-PODFILE = """
-# Example Podfile
-platform :ios, '7.0'
-inhibit_all_warnings!
-
-xcodeproj `MyProject`
-
-pod 'SSToolkit'
-pod 'AFNetworking', '>= 0.5.1'
-pod 'Objection', :head # 'bleeding edge'
-pod 'Rejection', '0.0.0'
-
-target :test do
-  pod 'OCMock', '~> 2.0.1'
-end
-
-generate_bridge_support!
-
-post_install do |installer|
-  installer.project.targets.each do |target|
-    puts "#target.name"
-  end
-end
-"""
-
-
 class BaseTestCase(TestCase):
     def setUp(self):
         super(BaseTestCase, self).setUp()
