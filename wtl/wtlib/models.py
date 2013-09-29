@@ -11,6 +11,8 @@ from wtl.wtgithub.models import Repository as GithubRepository
 @python_2_unicode_compatible
 class Language(models.Model):
     """
+    Language
+
     A language. Programming language.
     """
     name = models.CharField(_('name'), max_length=128,
@@ -32,7 +34,7 @@ class Language(models.Model):
 @python_2_unicode_compatible
 class Library(models.Model):
     """
-    Library.
+    Library
 
     This is what all this is about.
     """
@@ -66,7 +68,7 @@ class Library(models.Model):
 @python_2_unicode_compatible
 class LibraryVersion(models.Model):
     """
-    Library Versions.
+    Library Versions
 
     A library may have many versions. We need to keep that in mind, and in the
     database!
