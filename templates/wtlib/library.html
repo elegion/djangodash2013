@@ -29,7 +29,7 @@
     <ul class="list-inline library-tags">
       <li><span class="glyphicon glyphicon-tags"></span></li>
       {% for tag in library.tags.all %}
-        <li>{{ tag }}</li>
+        <li><a href="{% url 'wtlib_libraries_list_by_tag' language_slug=language.slug tag=tag.slug %}">{{ tag }}</a></li>
       {% endfor %}
     </ul>
   {% endif %}
