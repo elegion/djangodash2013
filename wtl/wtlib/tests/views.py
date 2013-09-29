@@ -36,6 +36,13 @@ class LibrariesListTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/libraries_list.html')
 
+    def test_mixed_output_var(self):
+        lang1 = LanguageFactory()
+        response = self.client.get('/libraries/')
+        self.assertTrue(response.context['mixed_languages'])
+        response = self.client.get('/libraries/{0}/'.format(lang1.slug))
+        self.assertFalse(response.context['mixed_languages'])
+
     def test_language_filter(self):
         lang1 = LanguageFactory()
         lang2 = LanguageFactory()
