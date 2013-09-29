@@ -30,3 +30,29 @@ html, body {
 .top-libraries {
   margin: 3em auto;
 }
+
+/* StreaminLogResponse page */
+.log-entry {
+  margin: 1em;
+}
+  .log-entry time {
+    color: #999999;
+  }
+.log-entry-CRITIAL, {
+  color: #ff6462;
+}
+.log-entry-ERROR {
+  color: #b94a48;
+}
+.log-entry-WARNING {
+  color: #c09853;
+}
+.log-entry-INFO {
+  color: #3a87ad;
+}
+.log-entry-DEBUG {
+  color: #999999;
+}
+.log-entry-NOTSET {
+  color: #999999;
+}

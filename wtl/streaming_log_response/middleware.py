@@ -9,9 +9,9 @@ from wtl.streaming_log_response.response import StreamingLogHttpResponse
 
 HTML_HEADER = """<!doctype html>
 <html>
-<head><meta charset="utf-8" /></head>
-<body>
-<div class="container>
+<head><meta charset="utf-8" /><link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.0.0/css/bootstrap.min.css" /><link rel="stylesheet" href="%(css_url)s" /></head>
+<body><div class="container logs-page"><h1 class="page-header">Long operation in progress...</h1>
+<h2>Streaming response:</h2>
 """
 
 HTML_FOOTER = """</div></body></html>"""
@@ -46,7 +46,7 @@ class StreamingLogResponseGenerator(object):
         self.handlers = {}
         for log_name, log_level in logs.items():
             handler = StreamingLogResponseHandler(self, log_level)
-            handler.formatter = logging.Formatter('<div class="log-entry log-entry-%(levelname)s"><time>%(asctime)-15s</time> %(message)s<br />')
+            handler.formatter = logging.Formatter('<div class="log-entry log-entry-%(levelname)s"><time>%(asctime)-15s</time> %(message)s</div>\n')
             logger = logging.getLogger(log_name)
             logger.addHandler(handler)
             logger.setLevel(log_level)
@@ -61,7 +61,7 @@ class StreamingLogResponseGenerator(object):
             self.messages.append(message)
 
     def __iter__(self):
-        yield HTML_HEADER
+        yield HTML_HEADER % {'css_url': static('css/index.css')}
         for _ in range(100):
             if not self.thread.is_alive():
                 break
