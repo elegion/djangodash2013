@@ -143,4 +143,4 @@ class Project(models.Model):
         return self.name
 
     def get_absolute_url(self):
-        return reverse('wtlib_project', args=[self.id])
+        return reverse('wtlib_project', args=[self.slug])
