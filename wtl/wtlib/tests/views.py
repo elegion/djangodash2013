@@ -50,11 +50,11 @@ class LibrariesListTestCase(TestCase):
         lib2 = LibraryFactory(language=lang2)
 
         response = self.client.get('/libraries/')
-        self.assertEqual(list(response.context['libraries']), [lib2, lib1])
+        self.assertItemsEqual(response.context['libraries'], [lib1, lib2])
         response = self.client.get('/libraries/{0}/'.format(lang1.slug))
-        self.assertEqual(list(response.context['libraries']), [lib1])
+        self.assertItemsEqual(response.context['libraries'], [lib1])
         response = self.client.get('/libraries/{0}/'.format(lang2.slug))
-        self.assertEqual(list(response.context['libraries']), [lib2])
+        self.assertItemsEqual(response.context['libraries'], [lib2])
 
     def test_active_menu(self):
         lang = LanguageFactory()
@@ -100,11 +100,11 @@ class ProjectsListTestCase(TestCase):
         proj2.libraries.add(v2)
 
         response = self.client.get('/projects/')
-        self.assertEqual(list(response.context['projects']), [proj1, proj2])
+        self.assertItemsEqual(response.context['projects'], [proj1, proj2])
         response = self.client.get('/projects/{0}/'.format(lang1.slug))
-        self.assertEqual(list(response.context['projects']), [proj1])
+        self.assertItemsEqual(response.context['projects'], [proj1])
         response = self.client.get('/projects/{0}/'.format(lang2.slug))
-        self.assertEqual(list(response.context['projects']), [proj2])
+        self.assertItemsEqual(response.context['projects'], [proj2])
 
     def test_active_menu(self):
         lang = LanguageFactory()
