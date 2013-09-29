@@ -29,6 +29,11 @@ class HomeTestCase(TestCase):
         self.assertFormError(response, 'analyze_form', 'git_url',
                              'Repository not found.')
 
+    def test_active_menu(self):
+        response = self.client.get('/')
+        self.assertNotIn('active_menu', response.context)
+        self.assertNotIn('active_language', response.context)
+
 
 class LibrariesListTestCase(TestCase):
     def test_template(self):
@@ -56,6 +61,15 @@ class LibrariesListTestCase(TestCase):
         response = self.client.get('/libraries/{0}/'.format(lang2.slug))
         self.assertEqual(list(response.context['libraries']), [lib2])
 
+    def test_active_menu(self):
+        lang = LanguageFactory()
+        response = self.client.get('/libraries/')
+        self.assertEqual(response.context['active_menu'], 'libraries')
+        self.assertEqual(response.context['active_language'], None)
+        response = self.client.get('/libraries/{0}/'.format(lang.slug))
+        self.assertEqual(response.context['active_menu'], 'libraries')
+        self.assertEqual(response.context['active_language'], lang.slug)
+
 
 class LibraryTestCase(TestCase):
     def test_template(self):
@@ -65,12 +79,25 @@ class LibraryTestCase(TestCase):
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/library.html')
 
+    def test_active_menu(self):
+        lib = LibraryFactory()
+        url = '/libraries/{0}/{1}'.format(lib.language.slug, lib.slug)
+        response = self.client.get(url)
+        self.assertEqual(response.context['active_menu'], 'libraries')
+        self.assertEqual(response.context['active_language'],
+                         lib.language.slug)
+
 
 class ProjectsListTestCase(TestCase):
     def test_template(self):
         response = self.client.get('/projects/')
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/projects_list.html')
+
+    def test_active_menu(self):
+        response = self.client.get('/projects/')
+        self.assertEqual(response.context['active_menu'], 'projects')
+        self.assertNotIn('active_language', response.context)
 
 
 class ProjectTestCase(TestCase):
@@ -79,3 +106,9 @@ class ProjectTestCase(TestCase):
         response = self.client.get('/projects/{0}'.format(project.slug))
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/project.html')
+
+    def test_active_menu(self):
+        project = ProjectFactory()
+        response = self.client.get('/projects/{0}'.format(project.slug))
+        self.assertEqual(response.context['active_menu'], 'projects')
+        self.assertNotIn('active_language', response.context)
