@@ -48,10 +48,8 @@
 
   <h2>{% trans 'Projects' %}</h2>
   <ul>
-    {% for version in library.versions.all %}
-      {% for project in version.projects.all %}
-        <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
-      {% endfor %}
+    {% for project in library.projects %}
+      <li><a href="{{ project.get_absolute_url }}">{{ project.name }}</a></li>
     {% endfor %}
   </ul>
 {% endblock %}

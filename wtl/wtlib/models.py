@@ -100,6 +100,12 @@ class Library(models.Model):
             l.save(update_fields=['total_users'])
         Language.update_totals()
 
+    def projects(self):
+        """
+        Returns queryset for projects using this library
+        """
+        return Project.objects.filter(libraries__library=self)
+
     def get_absolute_url(self):
         return reverse('wtlib_library', args=[self.language.slug, self.slug])
 
