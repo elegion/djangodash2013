@@ -78,6 +78,9 @@ class Library(models.Model):
             l.total_users = l.count
             l.save(update_fields=['total_users'])
 
+    def get_absolute_url(self):
+        return reverse('wtlib_library', args=[self.slug])
+
 
 @python_2_unicode_compatible
 class LibraryVersion(models.Model):
