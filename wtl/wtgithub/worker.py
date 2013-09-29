@@ -23,6 +23,9 @@ class ParseError(WorkerError):
     """
     Raised when parser can't parse requirements file.
     """
+    def __init__(self, error=None, *args, **kwargs):
+        super(ParseError, self).__init__(*args, **kwargs)
+        self.error = error
 
 
 class BaseGithubWorker(object):
@@ -98,8 +101,8 @@ class GithubWorker(BaseGithubWorker):
             raise ParseError('Unknown blob encoding')
         try:
             return parser.parse(content)
-        except:
-            raise ParseError()
+        except Exception as e:
+            raise ParseError(error=e)
 
     def _save_parsed_requirements(self, project, parsed):
         """

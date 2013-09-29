@@ -3,7 +3,7 @@ from django.forms.util import ErrorList
 from django.utils.translation import ugettext_lazy as _
 from github import UnknownObjectException
 
-from wtl.wtgithub.worker import GithubWorker
+from wtl.wtgithub.worker import GithubWorker, ParseError
 
 
 class AnalyzeForm(forms.Form):
@@ -19,3 +19,5 @@ class AnalyzeForm(forms.Form):
             return self.repository, self.project
         except UnknownObjectException:
             self._errors['git_url'].append(_('Repository not found.'))
+        except ParseError:
+            self._errors['git_url'].append(_('Failed to parse your repo.'))
