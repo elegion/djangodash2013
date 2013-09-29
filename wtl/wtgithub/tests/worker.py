@@ -120,7 +120,7 @@ class GetOrCreateRepositoryTestCase(BaseWorkerTestCase, AssertsMixin):
 class ParseRequirementsTestCase(BaseWorkerTestCase):
     def test_returns_parsed_requirements(self):
         parser = mock.Mock()
-        parser.parse.return_value = {'language': self.language}
+        parser.parse.return_value = {'language': self.language, 'packages': []}
         self.githubWillRespondWith('get_git_blog/requrements.txt.json')
         res = self.worker._parse_requirements(self.gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', parser)
         self.assertIsInstance(res, dict)
