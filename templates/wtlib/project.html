@@ -1,6 +1,14 @@
 {% extends 'base.html' %}
 {% load i18n %}
 
+{% block title %}
+  {{ project.name }}
+  ∙
+  {% trans 'Projects' %}
+  ∙
+  {{ block.super }}
+{% endblock %}
+
 {% block content %}
   <h1 class="page-header">{{ project.name }}</h1>
   <h2>{% trans 'Dependencies' %}</h2>
