@@ -109,6 +109,7 @@ class GithubWorker(object):
                 version_special=package_dict['version_special'])
             version.save()
             project.libraries.add(version)
+        self._update_user_counts(project)
 
     def _update_user_counts(self, project):
         LibraryVersion.update_totals_by_project(project)
@@ -119,5 +120,4 @@ class GithubWorker(object):
         requirements_blob_sha, parser = self._get_parser_for_repository(rep)
         parsed = self._parse_requirements(rep, requirements_blob_sha, parser)
         self._save_parsed_requirements(project, parsed)
-        self._update_user_counts(project)
         return repository, project

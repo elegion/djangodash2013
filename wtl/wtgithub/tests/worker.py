@@ -153,19 +153,16 @@ class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
         self.assertEqual('0.8.2', lib2.version)
         self.assertEqual(1, lib2.total_users)
 
-    def test_increments_total_users_count(self):
-        lib1 = LibraryFactory(name='django', language=self.language)
-        lib2 = LibraryFactory(name='south', language=self.language)
-        LibraryVersionFactory(library=lib1, version='1.5.4', total_users=1)
-        LibraryVersionFactory(library=lib2, version='0.8.1')
+    def test_updates_total_users_count(self):
+        l1 = LibraryFactory(name='django', language=self.language)
+        l2 = LibraryFactory(name='south', language=self.language)
+        self.worker._save_parsed_requirements(ProjectFactory(),
+                                              self.sampleDict())
 
-        project = ProjectFactory()
-        self.worker._save_parsed_requirements(project, self.sampleDict())
-
-        lib1 = project.libraries.get(library__name='django')
-        lib2 = project.libraries.get(library__name='south')
-        self.assertEqual(2, lib1.total_users)
-        self.assertEqual(1, lib2.total_users)
+        self.assertEqual(Library.objects.get(id=l1.id).total_users, 1)
+        self.assertEqual(LibraryVersion.objects.get(library=l1).total_users, 1)
+        self.assertEqual(Library.objects.get(id=l2.id).total_users, 1)
+        self.assertEqual(LibraryVersion.objects.get(library=l2).total_users, 1)
 
     def test_doesnt_duplicate_libraries_and_versions(self):
         project = ProjectFactory()
