@@ -110,15 +110,19 @@ class GetOrCreateRepositoryTestCase(BaseTestCase, AssertsMixin):
 
 class ParseRequirementsTestCase(BaseTestCase):
     def test_returns_parsed_requirements(self):
+        parser = mock.Mock()
+        parser.parse.return_value = {'language': 'Python'}
         self.githubWillRespondWith('get_git_blog/requrements.txt.json')
-        res = self.worker._parse_requirements(self.gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', RequirementsParser())
+        res = self.worker._parse_requirements(self.gh_rep, 'bbdce0004a897ba617f1001591c7dea665485425', parser)
         self.assertIsInstance(res, dict)
-        self.assertEqual(res.get('language'), 'Python')
+        self.assertDictEqual(parser.parse.return_value, res)
 
     def test_raises_parse_error(self):
+        parser = mock.Mock()
+        parser.parse.side_effect = ValueError('some parse error')
         self.githubWillRespondWith('get_git_blog/invalid-requirements.txt.json')
         with self.assertRaises(ParseError):
-            self.worker._parse_requirements(self.gh_rep, 'dd3705261c05bd3d3609de15bff66b6b4a5dd0ad', RequirementsParser())
+            self.worker._parse_requirements(self.gh_rep, 'dd3705261c05bd3d3609de15bff66b6b4a5dd0ad', parser)
 
 
 class SaveParsedRequirementsTestCase(BaseTestCase, AssertsMixin):
