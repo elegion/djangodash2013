@@ -6,7 +6,7 @@
   <dl>
   {% for lib in project.libraries.all %}
     <dt>{{ lib.library.name }}</dt>
-    <dd>{{ lib.version }}</dd>
+    <dd>{{ lib.version }} ( {{ lib.library.short_description }} )</dd>
   {% endfor %}
   </dl>
 {% endblock %}
