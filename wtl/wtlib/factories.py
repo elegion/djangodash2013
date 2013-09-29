@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import factory
 
-from . import models
+from wtl.wtlib import models
 
 
 class LanguageFactory(factory.DjangoModelFactory):

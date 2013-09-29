@@ -3,7 +3,7 @@ from __future__ import unicode_literals
 from django.test import TestCase
 from github import Github
 
-from .factories import LibraryFactory, LibraryVersionFactory
+from wtl.wtlib.factories import LibraryFactory, LibraryVersionFactory
 
 
 class LibraryTestCase(TestCase):

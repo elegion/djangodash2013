@@ -1,7 +1,7 @@
 from __future__ import unicode_literals
 
-from .base import BaseParser
-from .regex import RegexParserMixin
+from wtl.wtparser.parsers.base import BaseParser
+from wtl.wtparser.parsers.regex import RegexParserMixin
 
 
 class PodfileParser(BaseParser, RegexParserMixin):

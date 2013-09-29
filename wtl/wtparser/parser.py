@@ -1,6 +1,6 @@
 from __future__ import unicode_literals
 
-from . import parsers
+from wtl.wtparser import parsers
 
 
 __all__ = ['parse', 'get_parser_for_filename']

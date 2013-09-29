@@ -2,7 +2,7 @@ from __future__ import unicode_literals
 
 import requirements
 
-from .base import BaseParser
+from wtl.wtparser.parsers.base import BaseParser
 
 
 class RequirementsParser(BaseParser):
