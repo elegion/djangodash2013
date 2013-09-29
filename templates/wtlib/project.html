@@ -11,6 +11,18 @@
 
 {% block content %}
   <h1 class="page-header">{{ project.name }}</h1>
+  {% if project.github %}
+    <section class="project-info">
+      <dl class="dl-horizontal">
+        <dt>{% trans 'GitHub repository' %}</dt>
+        <dd><a href="https://github.com/{{ project.github.owner }}/{{ project.github.name }}">{{ project.github.owner }}/{{ project.github.name }}</a></dd>
+        <dt>{% trans 'Description' %}</dt>
+        <dd>{{ project.github.description }}</dd>
+        <dt>{% trans 'Stars' %}</dt>
+        <dd><a href="https://github.com/{{ project.github.owner }}/{{ project.github.name }}/stargazers">{{ project.github.starsCount }}</a></dd>
+      </dl>
+    </section>
+  {% endif %}
   <h2>{% trans 'Dependencies' %}</h2>
   <dl class="dl-horizontal">
     {% for lib in project.libraries.all %}
