@@ -38,15 +38,20 @@ def library(request, language_slug, library_slug):
                    'active_language': language_slug})
 
 
-def projects_list(request):
+def projects_list(request, language_slug):
     projects = Project.objects.all()
+    if language_slug:
+        projects = projects.distinct() \
+            .filter(libraries__library__language__slug=language_slug)
     return render(request, 'wtlib/projects_list.html',
                   {'projects': projects,
-                   'active_menu': 'projects'})
+                   'active_menu': 'projects',
+                   'active_language': language_slug})
 
 
-def project(request, project_slug):
+def project(request, language_slug, project_slug):
     project = get_object_or_404(Project, slug=project_slug)
     return render(request, 'wtlib/project.html',
                   {'project': project,
-                   'active_menu': 'projects'})
+                   'active_menu': 'projects',
+                   'active_language': language_slug})

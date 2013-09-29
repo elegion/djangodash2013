@@ -37,7 +37,16 @@
                     {% endfor %}
                     </ul>
                   </li>
-                  <li{% if active_menu == 'projects' %} class="active"{% endif %}><a href="{% url 'wtlib_projects_list' %}">{% trans 'Projects' %}</a></li>
+                  <li class="dropdown{% if active_menu == 'projects' %} active{% endif %}">
+                    <a class="dropdown-toggle" data-toggle="dropdown" href="{% url 'wtlib_projects_list' %}">{% trans 'Projects' %} <b class="caret"></b></a>
+                    <ul class="dropdown-menu">
+                    {% for lang in languages %}
+                      <li{% if active_language == lang.slug %} class="active"{% endif %}>
+                        <a href="{% url 'wtlib_projects_list' language_slug=lang.slug %}" style="color: {{ lang.color }}">{{ lang.name }}</a>
+                      </li>
+                    {% endfor %}
+                    </ul>
+                  </li>
                 </ul>
               </div>
             </div>
