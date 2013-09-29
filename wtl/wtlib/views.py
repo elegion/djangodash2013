@@ -20,7 +20,9 @@ def libraries_list(request, language_slug):
     libs = Library.objects.all()
     if language_slug:
         libs = libs.filter(language__slug=language_slug)
-    return render(request, 'wtlib/libraries_list.html', {'libraries': libs})
+    return render(request, 'wtlib/libraries_list.html',
+                  {'libraries': libs,
+                   'mixed_languages': language_slug is None})
 
 
 def library(request, language_slug, library_slug):

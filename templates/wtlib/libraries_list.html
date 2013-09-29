@@ -8,6 +8,7 @@
       <tr>
         <th>{% trans 'Name' %}</th>
         <th>{% trans 'Popularity' %}</th>
+        {% if mixed_languages %}<th>{% trans 'Language' %}</th>{% endif %}
       </tr>
     </thead>
     <tbody>
@@ -15,6 +16,7 @@
         <tr>
           <td><a href="{{ lib.get_absolute_url }}">{{ lib.name }}</a></td>
           <td>{{ lib.total_users }}</td>
+          {% if mixed_languages %}<td>{{ lib.language.name }}</td>{% endif %}
         </tr>
       {% endfor %}
     </tbody>
