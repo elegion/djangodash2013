@@ -16,3 +16,6 @@ class Repository(models.Model):
     name = models.CharField(_('name'), max_length=512)
     starsCount = models.IntegerField(_('stars count'))
     description = models.TextField(_('description'))
+
+    def __str__(self):
+        return '{0}/{1}'.format(self.owner, self.name)
