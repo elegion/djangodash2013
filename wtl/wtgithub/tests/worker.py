@@ -19,7 +19,7 @@ class BaseTestCase(TestCase):
     def setUp(self):
         super(BaseTestCase, self).setUp()
         self.language = LanguageFactory(name='Python')
-		# Mock github requests
+        # Mock github requests
         self.connectionMock = mock.Mock()
         connectionClass = mock.Mock()
         connectionClass.return_value = self.connectionMock
