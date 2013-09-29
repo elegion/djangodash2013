@@ -108,6 +108,8 @@ MIDDLEWARE_CLASSES = (
 
 ROOT_URLCONF = 'wtl.urls'
 
+LOGIN_URL = '/admin/'
+
 # Python dotted path to the WSGI application used by Django's runserver.
 WSGI_APPLICATION = 'wtl.wsgi.application'
 
