@@ -40,11 +40,15 @@ def library(request, language_slug, library_slug):
 
 def projects_list(request, language_slug):
     projects = Project.objects.all()
+    language = None
     if language_slug:
+        language = get_object_or_404(Language, slug=language_slug)
         projects = projects.filter(pk__in=Project.objects.filter(
             libraries__library__language__slug=language_slug))
     return render(request, 'wtlib/projects_list.html',
                   {'projects': projects,
+                   'mixed_languages': language_slug is None,
+                   'language': language,
                    'active_menu': 'projects',
                    'active_language': language_slug})
 
