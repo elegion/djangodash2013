@@ -1,6 +1,6 @@
 import base64
 from django.conf import settings
-from github import Github
+from wtl.wtgithub.github import Github
 
 from wtl.wtgithub.models import Repository
 from wtl.wtlib.models import Project, Library, LibraryVersion, Language
@@ -25,16 +25,19 @@ class ParseError(WorkerError):
     """
 
 
-class GithubWorker(object):
+class BaseGithubWorker(object):
     github = None
 
     def __init__(self, github=None):
-        super(GithubWorker, self).__init__()
+        super(BaseGithubWorker, self).__init__()
         if github is None:
             github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
-                            getattr(settings, 'WTGITHUB_PASSWORD', None))
+                            getattr(settings, 'WTGITHUB_PASSWORD', None),
+                            per_page=getattr(settings, 'WTGITHUB_PER_PAGE', 30))
         self.github = github
 
+
+class GithubWorker(BaseGithubWorker):
     def _get_repo(self, full_name):
         """
         Fetches GitHub repository information.
