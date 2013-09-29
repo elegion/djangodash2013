@@ -3,12 +3,20 @@
   <ul class="pagination">
     {% if items.has_previous %}
       <li><a href="?page={{ items.previous_page_number }}">«</a></li>
+    {% else %}
+      <li class="disabled"><a href="#">«</a></li>
     {% endif %}
-    <li><a href="">{{ items.number }}</a></li>
-    <li><a>of</a></li>
-    <li><a href="?page={{ items.paginator.num_pages }}">{{ items.paginator.num_pages }}</a></li>
+    {% for page in items.paginator.page_range %}
+      {% if page == items.number %}
+        <li class="current page active"><a href="#">{{ page }}</a></li>
+      {% else %}
+        <li><a href="?page={{ page }}">{{ page }}</a></li>
+      {% endif %}
+    {% endfor %}
     {% if items.has_next %}
       <li><a href="?page={{ items.next_page_number }}">»</a></li>
+    {% else %}
+      <li class="disabled"><a href="#">»</a></li>
     {% endif %}
   </div>
 {% endif %}
