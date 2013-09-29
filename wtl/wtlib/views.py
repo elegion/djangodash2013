@@ -13,13 +13,17 @@ def home(request):
     if request.method == 'POST':
         form = AnalyzeForm(request.POST)
         if form.is_valid():
-            def on_success(repository, project):
-                url = project.get_absolute_url()
-                return '<h2>Analysis complete! ' \
-                       '<a href="%s">See results.</a></h2>' % url
+            def on_finish(repository=None, project=None):
+                if project:
+                    url = project.get_absolute_url()
+                    return '<h2>Analysis complete! ' \
+                           '<a href="%s">See results.</a></h2>' % url
+                else:
+                    return '<h2>There was an error analyzing your repo. ' \
+                           '<a href="/">Try again.</a></h2>'
             streaming_content = StreamingLogResponseGenerator(
                     form.analyze, {'wtl': 'INFO'},
-                    callback=on_success)
+                    callback=on_finish)
             return StreamingHttpResponse(streaming_content)
     else:
         form = AnalyzeForm()

@@ -2,6 +2,7 @@ import base64
 import logging
 
 from django.conf import settings
+from github import UnknownObjectException
 
 from wtl.wtgithub.github import WtGithub
 from wtl.wtgithub.models import Repository
@@ -52,7 +53,11 @@ class GithubWorker(BaseGithubWorker):
         """
         Fetches GitHub repository information.
         """
-        return self.github.get_repo(full_name)
+        try:
+            return self.github.get_repo(full_name)
+        except UnknownObjectException:
+            logger.error('Repository not found: %s', full_name)
+            raise
 
     def _get_or_create_repository(self, rep):
         """
