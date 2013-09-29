@@ -11,7 +11,7 @@ from django.test import TestCase
 from exam.asserts import AssertsMixin
 import mock
 
-from wtl.wtlib.factories import LanguageFactory, LibraryFactory
+from wtl.wtlib.tests.factories import LanguageFactory, LibraryFactory
 from wtl.wtlib.models import Library
 from wtl.wtparser.parsers import RequirementsParser
 

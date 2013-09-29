@@ -10,7 +10,8 @@ import mock
 from wtl.wtgithub.models import Repository
 from wtl.wtgithub.tests.factories import RepositoryFactory
 from wtl.wtgithub.worker import GithubWorker, CantFindParserError, ParseError
-from wtl.wtlib.factories import ProjectFactory, LibraryFactory, LibraryVersionFactory, LanguageFactory
+from wtl.wtlib.tests.factories import (ProjectFactory, LibraryFactory,
+                                       LibraryVersionFactory, LanguageFactory)
 from wtl.wtlib.models import Project, Library, LibraryVersion
 from wtl.wtparser.parsers import RequirementsParser
 
