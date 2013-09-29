@@ -25,6 +25,14 @@
       {% endif %}
     </ul>
   {% endif %}
+  {% if library.tags.count %}
+    <ul class="list-inline library-tags">
+      <li><span class="glyphicon glyphicon-tags"></span></li>
+      {% for tag in library.tags.all %}
+        <li>{{ tag }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
   {% if library.short_description %}
     <h2>{% trans 'Description' %}</h2>
     <article class="library-short-description">
