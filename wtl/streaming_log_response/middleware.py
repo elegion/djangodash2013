@@ -4,7 +4,6 @@ import time
 
 from django.templatetags.static import static
 
-from wtl.streaming_log_response.response import StreamingLogHttpResponse
 from wtl.streaming_log_response.thread import ThreadWithReturnValue
 
 
@@ -82,14 +81,3 @@ class StreamingLogResponseGenerator(object):
             yield self.callback(*result)
         yield HTML_FOOTER
         self.teardown_logging()
-
-
-class StreamingLogResponseMiddleware(object):
-    def process_response(self, request, response):
-        if isinstance(response, StreamingLogHttpResponse):
-            response.streaming_content = StreamingLogResponseGenerator(response.func,
-                                                                       response.logs,
-                                                                       response.args,
-                                                                       response.kwargs,
-                                                                       response.callback)
-        return response

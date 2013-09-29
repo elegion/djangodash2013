@@ -1,7 +1,8 @@
 from __future__ import unicode_literals
 
+from django.http import StreamingHttpResponse
 from django.shortcuts import render, redirect, get_object_or_404
-from wtl.streaming_log_response.response import StreamingLogHttpResponse
+from wtl.streaming_log_response.middleware import StreamingLogResponseGenerator
 
 from wtl.wtcore.utils import paginate
 from wtl.wtlib.forms import AnalyzeForm
@@ -16,8 +17,10 @@ def home(request):
                 url = project.get_absolute_url()
                 return '<h2>Analysis complete! ' \
                        '<a href="%s">See results.</a></h2>' % url
-            return StreamingLogHttpResponse(form.analyze, {'wtl': 'INFO'},
-                                            callback=on_success)
+            streaming_content = StreamingLogResponseGenerator(
+                    form.analyze, {'wtl': 'INFO'},
+                    callback=on_success)
+            return StreamingHttpResponse(streaming_content)
     else:
         form = AnalyzeForm()
     top_languages = Language.objects.filter(total_users__gt=0)[:3]

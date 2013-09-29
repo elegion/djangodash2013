@@ -1,7 +1,7 @@
 import logging
 import time
+from django.http import StreamingHttpResponse
 
-from wtl.streaming_log_response.response import StreamingLogHttpResponse
 
 logger = logging.getLogger('streaming_log_response_test')
 
@@ -23,7 +23,7 @@ def test(request):
 
         time.sleep(3)
         logger.warning('log6!')
-    return StreamingLogHttpResponse(long_function, {'streaming_log_response_test': logging.INFO})
+    return StreamingHttpResponse(long_function, {'streaming_log_response_test': logging.INFO})
 
 
 def test2(request):
