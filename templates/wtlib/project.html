@@ -37,4 +37,14 @@
       {% endfor %}
     </dl>
   </section>
+  {% with project.often_used_with as often_used_with %}
+    {% if often_used_with|length %}
+      <h2>{% trans "Libraries often used with your dependencies" %}</h2>
+      <ul>
+        {% for library in often_used_with|slice:":10" %}
+          <li><a href="{{ library.get_absolute_url }}">{{ library.name }}</a> <small title="{% trans "usage count" %}">({{ library.usage_count }})</small></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
 {% endblock %}

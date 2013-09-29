@@ -1,7 +1,11 @@
 from __future__ import unicode_literals
-from django.core.urlresolvers import reverse
+try:
+    from functools import reduce
+except ImportError:
+    pass
 
 from autoslug import AutoSlugField
+from django.core.urlresolvers import reverse
 from django.db import models
 from django.utils.encoding import python_2_unicode_compatible
 from django.utils.functional import cached_property
@@ -189,6 +193,37 @@ class Project(models.Model):
 
     def get_absolute_url(self):
         return reverse('wtlib_project', args=[self.language_slug, self.slug])
+
+    @cached_property
+    def libs(self):
+        return Library.objects.filter(pk__in=self.libraries.values_list('library_id'))
+
+    def often_used_with(self):
+        try:
+            libraries = []
+            for library in self.libraries.all():
+                libraries +=library.library.often_used_with().exclude(pk__in=self.libs)
+            def aggregate_library_usage(result, current):
+                if result:
+                    previous = result[-1]
+                    if previous.pk == current.pk:
+                        previous.usage_count += current.usage_count
+                    else:
+                        result.append(current)
+                else:
+                    result.append(current)
+                return result
+            # Sort libraries by id, so libraries with same id will go after each-other:
+            # 1 1 3 5 5 6 7 8 8
+            libraries = sorted(libraries, key=lambda l: l.id)
+            # Now summ duplicate libraries usage count and remove duplicates
+            libraries = reduce(aggregate_library_usage, libraries, [])
+            # Order libraries by usage count
+            libraries = sorted(libraries, key=lambda l: l.usage_count, reverse=True)
+            return libraries
+        except Exception as e:
+            print(e)
+            raise
 
     @property
     def language_slug(self):
