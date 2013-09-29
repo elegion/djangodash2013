@@ -39,7 +39,8 @@ class LibrariesListTestCase(TestCase):
 class LibraryTestCase(TestCase):
     def test_template(self):
         lib = LibraryFactory()
-        response = self.client.get('/libraries/{0}'.format(lib.slug))
+        url = '/libraries/{0}/{1}'.format(lib.language.slug, lib.slug)
+        response = self.client.get(url)
         self.assertEqual(response.status_code, 200)
         self.assertTemplateUsed(response, 'wtlib/library.html')
 
