@@ -4,7 +4,7 @@
 {% block content %}
   <h1 class="page-header">{{ project.name }}</h1>
   <h2>Dependencies</h2>
-  <dl>
+  <dl class="dl-horizontal">
     {% for lib in project.libraries.all %}
       <dt>
         <a href="{{ lib.library.get_absolute_url }}">{{ lib.library.name }}</a>
