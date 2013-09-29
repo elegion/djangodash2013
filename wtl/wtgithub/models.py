@@ -10,7 +10,7 @@ class Repository(models.Model):
     """
     Repository
 
-    Represents github repository. Name, description, etc
+    Represents github repository. Name, description, etc.
     """
     owner = models.CharField(_('owner'), max_length=512)
     name = models.CharField(_('name'), max_length=512)
