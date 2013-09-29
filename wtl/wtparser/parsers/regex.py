@@ -7,7 +7,7 @@ class RegexParserMixin(object):
     version_re = r'''(?P<s>[<>=~]*)\s*(?P<n>.*)'''
 
     def _get_value(self, lines, prefix, regex):
-        filtered = self._lines_startwith(lines, '%s ' % prefix)
+        filtered = self._lines_startwith(lines, '{0} '.format(prefix))
         return self._match(filtered[0], 'x', regex) if len(lines) else None
 
     def _lines_startwith(self, lines, init):

@@ -87,7 +87,7 @@ class LibraryVersion(models.Model):
         verbose_name_plural = _('library versions')
 
     def __str__(self):
-        return '%s %s' % (self.library.name, self.version)
+        return '{0} {1}'.format(self.library.name, self.version)
 
 
 @python_2_unicode_compatible

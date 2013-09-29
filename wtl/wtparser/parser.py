@@ -49,7 +49,7 @@ def guess(content):
 
 
 def load(filetype):
-    return load_by_name('%sParser' % filetype.capitalize())()
+    return load_by_name('{0}Parser'.format(filetype.capitalize()))()
 
 
 def load_by_name(name):
