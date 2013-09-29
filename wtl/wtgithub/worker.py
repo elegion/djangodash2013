@@ -31,9 +31,8 @@ class GithubWorker(object):
     def __init__(self, github=None):
         super(GithubWorker, self).__init__()
         if github is None:
-            self.github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
+            github = Github(getattr(settings, 'WTGITHUB_USERNAME', None),
                                  getattr(settings, 'WTGITHUB_PASSWORD', None))
-        if github is not None:
             self.github = github
 
     def _get_repo(self, full_name):
