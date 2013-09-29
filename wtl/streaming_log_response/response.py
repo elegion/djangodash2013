@@ -11,4 +11,8 @@ class StreamingLogHttpResponse(StreamingHttpResponse):
         self.func = func
         self.logs = logs
         self.args = args
+        if args is None:
+            args = []
+        if kwargs is None:
+            kwargs = {}
         self.kwargs = kwargs

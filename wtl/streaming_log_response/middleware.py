@@ -40,6 +40,8 @@ class StreamingLogResponseGenerator(object):
         super(StreamingLogResponseGenerator, self).__init__()
         self.messages = []
         self.setup_logging(logs)
+        if args is None:
+            args = []
         if kwargs is None:
             kwargs = {}
         self.thread = threading.Thread(target=func, args=args, kwargs=kwargs)
