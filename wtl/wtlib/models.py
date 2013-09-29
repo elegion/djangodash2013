@@ -106,6 +106,22 @@ class Library(models.Model):
         """
         return Project.objects.filter(libraries__library=self)
 
+    def often_used_with(self):
+        projects = self.projects
+        libraries = Library.objects \
+                .filter(versions__projects__in=projects) \
+                .exclude(pk=self.pk) \
+                .annotate(usage_count=models.Count('versions__id')) \
+                .order_by('-usage_count', 'name')
+        #library_versions = LibraryVersion.objects.filter(projects__in=projects) \
+        #        .select_related('library') \
+        #        .annotate(usage_count=models.Count('library')) \
+        #        .order_by('-usage_count', 'library__name')
+        return libraries[:5]
+
+        #Library.objects.filter(library__project)
+        #LibraryVersion.objects.filter(library=self).annotate(Coun)
+
     def get_absolute_url(self):
         return reverse('wtlib_library', args=[self.language.slug, self.slug])
 

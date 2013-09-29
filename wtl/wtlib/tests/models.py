@@ -38,6 +38,37 @@ class LibraryVersionTestCase(TestCase):
         self.assertEqual(LibraryVersion.objects.get(id=l2v1.id).total_users, 1)
         self.assertEqual(LibraryVersion.objects.get(id=l2v2.id).total_users, 0)
 
+    def test_often_used_with(self):
+        lib1 = LibraryFactory()
+        lib2 = LibraryFactory()
+        lib3 = LibraryFactory()
+        lib4 = LibraryFactory()
+        ver1 = LibraryVersionFactory(library=lib1)
+
+        project_1_2 = ProjectFactory()
+        project_1_2.libraries.add(ver1)
+        project_1_2.libraries.add(LibraryVersionFactory(library=lib2))
+
+        project_1_2__2 = ProjectFactory()
+        project_1_2__2.libraries.add(ver1)
+        project_1_2__2.libraries.add(LibraryVersionFactory(library=lib2))
+
+        project_1_3 = ProjectFactory()
+        project_1_3.libraries.add(LibraryVersionFactory(library=lib1))
+        project_1_3.libraries.add(LibraryVersionFactory(library=lib3))
+
+        project_2_3_4 = ProjectFactory()
+        project_2_3_4.libraries.add(LibraryVersionFactory(library=lib2))
+        project_2_3_4.libraries.add(LibraryVersionFactory(library=lib3))
+        project_2_3_4.libraries.add(LibraryVersionFactory(library=lib4))
+
+        lib1_result = lib1.often_used_with()
+        print(lib1_result.query)
+        self.assertEqual(lib2.name, lib1_result[0].name)
+        self.assertEqual(2, lib1_result[0].usage_count)
+        self.assertEqual(lib3.name, lib1_result[1].name)
+        self.assertEqual(1, lib1_result[1].usage_count)
+
 
 class ProjectTestCase(TestCase):
     def test_str(self):

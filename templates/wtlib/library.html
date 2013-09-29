@@ -46,6 +46,17 @@
     </article>
   {% endif %}
 
+  {% with library.often_used_with as often_used_with %}
+    {% if often_used_with|length %}
+      <h2>This library is ofter used with:</h2>
+      <ul>
+        {% for library in often_used_with %}
+          <li><a href="{{ library.get_absolute_url }}">{{ library.name }}</a> <small title="usage count">({{ library.usage_count }})</small></li>
+        {% endfor %}
+      </ul>
+    {% endif %}
+  {% endwith %}
+
   <h2>{% trans 'Projects' %}</h2>
   <ul>
     {% for project in library.projects %}
