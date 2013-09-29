@@ -50,6 +50,7 @@ def projects_list(request, language_slug):
         language = get_object_or_404(Language, slug=language_slug)
         projects = projects.filter(pk__in=Project.objects.filter(
             libraries__library__language__slug=language_slug))
+    projects = paginate(projects, 50, request.GET.get('page'))
     return render(request, 'wtlib/projects_list.html',
                   {'projects': projects,
                    'mixed_languages': language_slug is None,
