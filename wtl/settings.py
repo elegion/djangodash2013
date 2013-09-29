@@ -133,6 +133,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'south',
     'django_nose',
+    'django_extensions',
 
     'wtl.wtlib',
     'wtl.wtparser',
